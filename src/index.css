@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Outfit', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --color-brand-bg: #FAF9F6;
+  --color-brand-text: #121212;
+  --color-brand-muted: #71717A;
+  --color-brand-accent: #5C4033;
+}
+
+/* Custom scrollbar hiding utilities */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #FAF9F6;
+  color: #121212;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+  background-color: #FAF9F6;
+  color: #121212;
+}
+
+/* Custom utilities */
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Marquee infinite scroll styles */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  width: 100%;
+}
+
+.marquee-content {
+  display: flex;
+  gap: 1.5rem;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
