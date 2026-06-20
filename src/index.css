@@ -1,66 +1,85 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap');
 
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  --font-sans: 'Outfit', sans-serif;
-  --font-serif: 'Playfair Display', serif;
-  --color-brand-bg: #FAF9F6;
-  --color-brand-text: #121212;
-  --color-brand-muted: #71717A;
-  --color-brand-accent: #5C4033;
+:root {
+  color: #171512;
+  background: #f7f1e8;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar hiding utilities */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(139, 96, 71, 0.14), transparent 30rem),
+    linear-gradient(180deg, #fbf7ef 0%, #f7f1e8 45%, #f3eadf 100%);
+}
+
+button,
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-html {
-  scroll-behavior: smooth;
-  background-color: #FAF9F6;
-  color: #121212;
+.hero-mask {
+  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
 }
 
-body {
-  font-family: 'Outfit', sans-serif;
-  overflow-x: hidden;
-  background-color: #FAF9F6;
-  color: #121212;
+.marquee-track {
+  animation: marquee 38s linear infinite;
 }
 
-/* Custom utilities */
-.transition-smooth {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.marquee-track.reverse {
+  animation-direction: reverse;
+  animation-duration: 44s;
 }
 
-/* Marquee infinite scroll styles */
-.marquee-container {
-  overflow: hidden;
-  white-space: nowrap;
-  display: flex;
-  width: 100%;
-}
-
-.marquee-content {
-  display: flex;
-  gap: 1.5rem;
-  animation: marquee 30s linear infinite;
-}
-
-.marquee-content:hover {
+.marquee-track:hover {
   animation-play-state: paused;
 }
 
 @keyframes marquee {
-  0% {
-    transform: translateX(0%);
+  from {
+    transform: translateX(0);
   }
-  100% {
+  to {
     transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .marquee-track,
+  .marquee-track.reverse {
+    animation: none;
+    transform: translateX(0);
   }
 }
