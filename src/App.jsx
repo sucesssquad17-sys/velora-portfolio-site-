@@ -129,7 +129,7 @@ function AnimatedImageRail({ reverse = false }) {
         {repeated.map((image, index) => (
           <div
             key={`${image.src}-${index}`}
-            className={`${index % 3 === 0 ? 'h-56 w-40 sm:h-96 sm:w-64' : index % 3 === 1 ? 'h-48 w-36 sm:h-80 sm:w-56' : 'h-64 w-44 sm:h-[26rem] sm:w-72'} overflow-hidden rounded-[1.5rem] sm:rounded-[2rem] border border-white/70 bg-white/40 shadow-soft`}
+            className={`${index % 4 === 0 ? 'h-48 w-36 sm:h-96 sm:w-64' : index % 4 === 1 ? 'h-40 w-32 sm:h-80 sm:w-56' : index % 4 === 2 ? 'h-52 w-40 sm:h-[26rem] sm:w-72' : 'h-44 w-32 sm:h-72 sm:w-48'} overflow-hidden rounded-[1.5rem] border border-white/70 bg-white/40 shadow-soft sm:rounded-[2rem]`}
           >
             <img src={image.src} alt={image.alt} className="h-full w-full object-cover" loading={index < 4 ? 'eager' : 'lazy'} />
           </div>
@@ -191,7 +191,7 @@ function CategorySection() {
           </div>
           <a href="#new-arrivals" className="hidden items-center gap-2 text-sm font-bold text-ink sm:flex">See all <ChevronRight size={17} /></a>
         </div>
-        <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-80px' }} className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-5">
+        <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-80px' }} className="grid grid-cols-2 gap-3 lg:grid-cols-3 lg:gap-5">
           {categories.map((category) => (
             <motion.a variants={fadeUp} href="#new-arrivals" key={category.name} className="group relative overflow-hidden rounded-[1.7rem] bg-white shadow-product sm:rounded-[2rem]">
               <img src={category.image} alt={`${category.name} collection`} className="h-52 w-full object-cover transition duration-700 group-hover:scale-105 sm:h-72" loading="lazy" />
@@ -202,6 +202,12 @@ function CategorySection() {
               </div>
             </motion.a>
           ))}
+        </motion.div>
+        
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="mt-4 flex h-32 w-full overflow-hidden rounded-[1.7rem] sm:mt-5 sm:h-48 lg:rounded-[2rem]">
+          <img src="https://images.unsplash.com/photo-1489987707023-afc152d5d8f8?auto=format&fit=crop&w=800&q=80" alt="Mood 1" className="w-1/3 object-cover" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=800&q=80" alt="Mood 2" className="w-1/3 object-cover" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1550614000-4b95d415d183?auto=format&fit=crop&w=800&q=80" alt="Mood 3" className="w-1/3 object-cover" loading="lazy" />
         </motion.div>
       </div>
     </section>
@@ -275,9 +281,18 @@ function EditorialBanner() {
             <p className="mt-5 max-w-lg text-base leading-8 text-white/70">Every piece is made to move through your day without trying too hard. Layer it, repeat it, live in it.</p>
             <Button variant="light" className="mt-8 w-fit border-white/20 bg-white text-ink hover:bg-sand">Read Our Story</Button>
           </div>
-          <div className="relative min-h-[360px] overflow-hidden lg:min-h-[560px]">
-            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1300&q=85" alt="Editorial fashion campaign" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/45 via-transparent to-transparent" />
+          <div className="relative min-h-[400px] bg-white/5 p-1 sm:p-2 lg:min-h-[560px]">
+            <div className="grid h-full grid-cols-2 grid-rows-2 gap-1 sm:gap-2 lg:grid-cols-[1.5fr_1fr]">
+              <div className="row-span-2 overflow-hidden rounded-[1.5rem] sm:rounded-[2rem]">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" alt="Editorial lifestyle" className="h-full w-full object-cover" loading="lazy" />
+              </div>
+              <div className="overflow-hidden rounded-[1.5rem] sm:rounded-[2rem]">
+                <img src="https://images.unsplash.com/photo-1550614000-4b95d415d183?auto=format&fit=crop&w=600&q=80" alt="Fabric texture" className="h-full w-full object-cover" loading="lazy" />
+              </div>
+              <div className="overflow-hidden rounded-[1.5rem] sm:rounded-[2rem]">
+                <img src="https://images.unsplash.com/photo-1434389673922-921c1692ceb9?auto=format&fit=crop&w=600&q=80" alt="Product detail" className="h-full w-full object-cover" loading="lazy" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -288,9 +303,14 @@ function EditorialBanner() {
 function CollectionHighlight() {
   return (
     <section id="about" className="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-      <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2 lg:items-center">
-        <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="overflow-hidden rounded-[2.4rem] shadow-soft">
-          <img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1300&q=85" alt="Neutral edit fashion collection" className="h-[520px] w-full object-cover" loading="lazy" />
+      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2 lg:items-center">
+        <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="relative h-[440px] w-full sm:h-[520px]">
+          <div className="absolute left-0 top-0 h-[85%] w-[85%] overflow-hidden rounded-[2.4rem] shadow-soft">
+            <img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1000&q=85" alt="Neutral edit fashion collection" className="h-full w-full object-cover" loading="lazy" />
+          </div>
+          <div className="absolute bottom-0 right-0 h-[50%] w-[45%] overflow-hidden rounded-[2rem] border-[6px] border-paper bg-sand shadow-product">
+            <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&q=80" alt="Texture detail" className="h-full w-full object-cover" loading="lazy" />
+          </div>
         </motion.div>
         <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="rounded-[2.4rem] border border-ink/10 bg-white/55 p-7 shadow-product sm:p-10 lg:p-12">
           <motion.p variants={fadeUp} className="text-sm font-bold uppercase tracking-[0.22em] text-clay">The Neutral Edit</motion.p>
@@ -344,13 +364,21 @@ function Testimonials() {
           <h2 className="mt-2 text-4xl font-black tracking-[-0.05em] text-ink sm:text-6xl">Looks real. Feels premium.</h2>
         </div>
         <div className="grid gap-4 lg:grid-cols-3">
-          {testimonials.map(([name, quote]) => (
-            <div key={name} className="rounded-[2rem] border border-ink/10 bg-white/60 p-6 shadow-product">
-              <div className="mb-5 flex gap-1 text-clay">
-                {Array.from({ length: 5 }).map((_, index) => <Star key={index} size={16} fill="currentColor" />)}
+          {testimonials.map((test) => (
+            <div key={test.name} className="rounded-[2rem] border border-ink/10 bg-white/60 p-6 shadow-product transition hover:shadow-soft">
+              <div className="mb-5 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <img src={test.avatar} alt={test.name} className="h-12 w-12 rounded-full object-cover border border-ink/10" />
+                  <div>
+                    <p className="text-sm font-extrabold text-ink">{test.name}</p>
+                    <p className="text-xs font-semibold text-muted">{test.handle}</p>
+                  </div>
+                </div>
+                <div className="flex gap-1 text-clay">
+                  {Array.from({ length: 5 }).map((_, index) => <Star key={index} size={14} fill="currentColor" />)}
+                </div>
               </div>
-              <p className="leading-8 text-ink">“{quote}”</p>
-              <p className="mt-6 text-sm font-extrabold text-muted">— {name}</p>
+              <p className="leading-8 text-ink">“{test.quote}”</p>
             </div>
           ))}
         </div>
@@ -362,17 +390,20 @@ function Testimonials() {
 function Newsletter() {
   return (
     <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-      <div className="mx-auto max-w-7xl rounded-[2rem] border border-ink/10 bg-white/65 p-8 shadow-soft backdrop-blur-sm sm:rounded-[3rem] sm:p-12 lg:p-16">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div>
+      <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-ink/10 bg-white/80 shadow-soft sm:rounded-[3rem]">
+        <div className="grid lg:grid-cols-[1fr_0.6fr]">
+          <div className="p-8 sm:p-12 lg:p-16">
             <p className="text-sm font-bold uppercase tracking-[0.22em] text-clay">Get first access</p>
             <h2 className="mt-4 text-4xl font-black tracking-[-0.05em] text-ink sm:text-5xl lg:text-6xl">New drops, early offers, styling notes.</h2>
-            <p className="mt-5 text-base leading-8 text-muted">No spam. Just early access to new collections, exclusive offers, and styling inspiration.</p>
+            <p className="mt-5 max-w-md text-base leading-8 text-muted">No spam. Just early access to new collections, exclusive offers, and styling inspiration.</p>
+            <form className="mt-10 flex flex-col gap-3 rounded-[1.5rem] bg-paper p-3 shadow-inner sm:flex-row max-w-lg">
+              <input type="email" required placeholder="Enter your email address" className="min-h-[52px] flex-1 rounded-full border border-transparent bg-white px-6 text-sm font-medium text-ink outline-none transition-colors focus:border-clay focus:ring-1 focus:ring-clay" />
+              <Button type="submit" className="min-h-[52px]">Join List <ArrowRight size={17} /></Button>
+            </form>
           </div>
-          <form className="flex flex-col gap-3 rounded-[1.5rem] bg-paper p-3 shadow-inner sm:flex-row">
-            <input type="email" required placeholder="Enter your email address" className="min-h-[52px] flex-1 rounded-full border border-transparent bg-white px-6 text-sm font-medium text-ink outline-none transition-colors focus:border-clay focus:ring-1 focus:ring-clay" />
-            <Button type="submit" className="min-h-[52px]">Join List <ArrowRight size={17} /></Button>
-          </form>
+          <div className="hidden h-full w-full lg:block">
+            <img src="https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=800&q=80" alt="Newsletter fashion" className="h-full w-full object-cover" loading="lazy" />
+          </div>
         </div>
       </div>
     </section>
@@ -381,29 +412,44 @@ function Newsletter() {
 
 function Footer() {
   const links = ['Shop', 'About', 'Contact', 'Shipping', 'Returns', 'Privacy'];
+  const gramImages = [
+    'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=200&q=80',
+    'https://images.unsplash.com/photo-1434389673922-921c1692ceb9?auto=format&fit=crop&w=200&q=80',
+    'https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=200&q=80',
+    'https://images.unsplash.com/photo-1550614000-4b95d415d183?auto=format&fit=crop&w=200&q=80',
+  ];
+
   return (
     <footer className="border-t border-ink/10 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.6fr_0.6fr_0.8fr]">
         <div>
           <div className="flex items-center gap-2">
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-ink text-xs font-bold text-white transition-transform hover:rotate-6">V</span>
             <span className="text-lg font-extrabold tracking-[0.24em] text-ink">VELORA</span>
           </div>
-          <p className="mt-5 max-w-sm text-sm leading-7 text-muted">Elevated everyday essentials. Designed with intention and crafted for comfort.</p>
+          <p className="mt-5 max-w-xs text-sm leading-7 text-muted">Elevated everyday essentials. Designed with intention and crafted for comfort.</p>
         </div>
         <div>
           <h3 className="mb-5 text-xs font-extrabold uppercase tracking-[0.2em] text-ink">Links</h3>
-          <div className="grid grid-cols-2 gap-4 text-sm font-medium text-muted">
+          <div className="grid grid-cols-2 gap-4 text-sm font-medium text-muted lg:grid-cols-1">
             {links.map((link) => <a key={link} href="#home" className="transition hover:text-ink">{link}</a>)}
           </div>
         </div>
         <div>
           <h3 className="mb-5 text-xs font-extrabold uppercase tracking-[0.2em] text-ink">Social</h3>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             {['Instagram', 'X', 'Pinterest'].map((item) => (
               <a key={item} href="#home" className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 bg-white/50 text-ink transition hover:bg-ink hover:text-white" aria-label={item}>
                 {item === 'Instagram' ? <Instagram size={17} /> : item[0]}
               </a>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 className="mb-5 text-xs font-extrabold uppercase tracking-[0.2em] text-ink">On The Gram</h3>
+          <div className="grid grid-cols-2 gap-2 w-fit">
+            {gramImages.map((src, i) => (
+              <img key={i} src={src} alt="Instagram feed" className="h-16 w-16 rounded-xl object-cover shadow-sm sm:h-20 sm:w-20" loading="lazy" />
             ))}
           </div>
         </div>
