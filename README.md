@@ -1,33 +1,65 @@
-# VELORA Portfolio Site
+# VELORA | Premium Fashion Ecommerce Concept
 
-A polished fashion ecommerce landing page portfolio project built with React, Vite, Tailwind CSS, Framer Motion, and lucide-react.
+A high-end, responsive ecommerce landing page designed to showcase a modern direct-to-consumer (DTC) fashion brand. Built with a focus on editorial aesthetics, smooth interactions, and performant design.
+
+## Live Demo
+[View Live Site](https://sucesssquad17-sys.github.io/velora-portfolio-site-/)
+
+## Preview
+<!-- Placeholder for Desktop Preview -->
+![VELORA Desktop View](./preview-desktop.png)
+
+<!-- Placeholder for Mobile Preview -->
+![VELORA Mobile View](./preview-mobile.png)
+
+## Built With
+- **Framework:** React + Vite
+- **Styling:** Tailwind CSS
+- **Animations:** Framer Motion
+- **Icons:** Lucide React
 
 ## Features
+- **Editorial Layouts:** Clean silhouettes, warm luxury neutrals, and a refined typographical hierarchy.
+- **Fluid Animations:** Smooth entry fades, hover interactions, and an animated product image rail.
+- **Ecommerce Foundations:** Interactive product grids, quick-add functionality, and a functional cart drawer.
+- **Fully Responsive:** Intentionally designed mobile experience with optimized tap targets and spacing.
+- **Accessibility:** Reduced-motion support and semantic markup.
 
-- Premium fashion ecommerce landing page
-- Fully responsive mobile, tablet, and desktop layout
-- Animated infinite image rail in the hero section
-- Product grid with hover states and mobile quick-add buttons
-- Interactive cart drawer concept
-- Editorial banner, collection highlight, benefits, testimonials, newsletter, and footer
-- Clean component structure and easy-to-replace image/data arrays
+## Folder Structure
+```text
+src/
+├── assets/          # Static assets and brand imagery
+├── data.js          # Mock product and content data
+├── index.css        # Global styles, variables, and custom animations
+├── App.jsx          # Core layout and component assembly
+└── main.jsx         # Application entry point
+```
 
-## Run locally
+## Getting Started
 
+### Run Locally
+To run this project on your local machine:
 ```bash
 npm install
 npm run dev
 ```
 
-## Build
-
+### Build for Production
 ```bash
 npm run build
-npm run preview
 ```
+This will generate optimized static assets in the `dist` folder.
 
-## Main files
+## Deployment Notes
+This project is configured to deploy to GitHub Pages.
+```bash
+npm run deploy
+```
+*Note: The `package.json` includes `gh-pages` and a predeploy script to handle the build process automatically.*
 
-- `src/App.jsx` — all UI sections and components
-- `src/data.js` — products, categories, rail images, benefits, testimonials
-- `src/index.css` — Tailwind setup and marquee animation
+## Portfolio Notes
+This project was built to demonstrate my ability to translate high-end brand aesthetics into functional, responsive web interfaces. It highlights:
+- Advanced Tailwind CSS usage for custom gradients, soft shadows, and precise spacing.
+- Framer Motion integration for polished, non-intrusive micro-interactions.
+- React state management for cart functionality and drawer interactions.
+- Attention to detail in mobile-first design and typography.

@@ -125,11 +125,11 @@ function AnimatedImageRail({ reverse = false }) {
 
   return (
     <div className="hero-mask w-full overflow-hidden py-2">
-      <div className={`marquee-track flex w-max gap-4 ${reverse ? 'reverse' : ''}`}>
+      <div className={`marquee-track flex w-max gap-3 sm:gap-4 ${reverse ? 'reverse' : ''}`}>
         {repeated.map((image, index) => (
           <div
             key={`${image.src}-${index}`}
-            className={`${index % 3 === 0 ? 'h-72 w-48 sm:h-96 sm:w-64' : index % 3 === 1 ? 'h-64 w-44 sm:h-80 sm:w-56' : 'h-80 w-52 sm:h-[26rem] sm:w-72'} overflow-hidden rounded-[2rem] border border-white/70 bg-white/40 shadow-soft`}
+            className={`${index % 3 === 0 ? 'h-56 w-40 sm:h-96 sm:w-64' : index % 3 === 1 ? 'h-48 w-36 sm:h-80 sm:w-56' : 'h-64 w-44 sm:h-[26rem] sm:w-72'} overflow-hidden rounded-[1.5rem] sm:rounded-[2rem] border border-white/70 bg-white/40 shadow-soft`}
           >
             <img src={image.src} alt={image.alt} className="h-full w-full object-cover" loading={index < 4 ? 'eager' : 'lazy'} />
           </div>
@@ -141,22 +141,22 @@ function AnimatedImageRail({ reverse = false }) {
 
 function Hero() {
   return (
-    <section id="home" className="relative overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-8 lg:pb-24 lg:pt-32">
-      <div className="absolute right-0 top-16 -z-10 h-72 w-72 rounded-full bg-clay/10 blur-3xl" />
+    <section id="home" className="relative overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-8 lg:pb-28 lg:pt-40">
+      <div className="absolute right-0 top-16 -z-10 h-[28rem] w-[28rem] rounded-full bg-clay/10 blur-[100px]" />
       <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14">
         <motion.div variants={stagger} initial="hidden" animate="show" className="max-w-2xl">
-          <motion.div variants={fadeUp} className="mb-5 inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/55 px-3 py-2 text-xs font-bold uppercase tracking-[0.22em] text-clay shadow-sm">
+          <motion.div variants={fadeUp} className="mb-6 inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/55 px-3 py-2 text-xs font-bold uppercase tracking-[0.22em] text-clay shadow-sm">
             <Sparkles size={14} /> New Drop 2026
           </motion.div>
-          <motion.h1 variants={fadeUp} className="text-balance text-5xl font-black leading-[0.92] tracking-[-0.06em] text-ink sm:text-6xl lg:text-8xl">
+          <motion.h1 variants={fadeUp} className="text-balance text-4xl font-black leading-[1.05] tracking-[-0.06em] text-ink sm:text-6xl lg:text-8xl">
             Built for slow mornings, late nights, and everything between.
           </motion.h1>
           <motion.p variants={fadeUp} className="mt-6 max-w-xl text-base leading-8 text-muted sm:text-lg">
-            Premium everyday pieces designed with clean silhouettes, soft textures, and effortless comfort. A portfolio ecommerce build that feels like a real brand.
+            Modern wardrobe staples with premium textures, clean silhouettes, and everyday comfort. Designed for repeat wear.
           </motion.p>
           <motion.div variants={fadeUp} className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button>Shop New Arrivals <ArrowRight size={17} /></Button>
-            <Button variant="light">View Collection</Button>
+            <Button className="min-h-[48px]">Shop New Arrivals <ArrowRight size={17} /></Button>
+            <Button variant="light" className="min-h-[48px]">View Collection</Button>
           </motion.div>
           <motion.div variants={fadeUp} className="mt-8 grid gap-3 text-sm font-medium text-ink sm:grid-cols-3">
             {['Free shipping over ₹2,999', 'Easy 7-day returns', 'Premium cotton blends'].map((item) => (
@@ -182,7 +182,7 @@ function Hero() {
 
 function CategorySection() {
   return (
-    <section id="collections" className="px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+    <section id="collections" className="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="mb-7 flex items-end justify-between gap-4">
           <div>
@@ -210,16 +210,16 @@ function CategorySection() {
 
 function ProductCard({ product, onAdd }) {
   return (
-    <motion.article variants={fadeUp} className="group overflow-hidden rounded-[1.6rem] border border-ink/10 bg-white/60 shadow-product backdrop-blur sm:rounded-[2rem]">
-      <div className="relative aspect-[3/4] overflow-hidden bg-sand">
+    <motion.article variants={fadeUp} className="group overflow-hidden rounded-[1.2rem] border border-ink/5 bg-white/60 shadow-product backdrop-blur transition-shadow hover:shadow-soft sm:rounded-[1.5rem]">
+      <div className="relative aspect-[3/4] overflow-hidden bg-sand/30">
         {product.tag && (
-          <span className="absolute left-3 top-3 z-10 rounded-full bg-white/90 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink shadow-sm">
+          <span className="absolute left-3 top-3 z-10 rounded-full bg-white/95 px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink shadow-sm">
             {product.tag}
           </span>
         )}
-        <img src={product.image} alt={product.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
-        <div className="absolute inset-x-3 bottom-3 translate-y-3 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-          <Button onClick={() => onAdd(product)} className="w-full py-2.5 text-xs sm:text-sm">Quick Add</Button>
+        <img src={product.image} alt={product.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+        <div className="absolute inset-x-3 bottom-3 translate-y-4 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 hidden sm:block">
+          <Button onClick={() => onAdd(product)} className="w-full min-h-[44px] py-2 text-sm shadow-lg">Quick Add</Button>
         </div>
       </div>
       <div className="p-4 sm:p-5">
@@ -244,7 +244,7 @@ function ProductCard({ product, onAdd }) {
 
 function ProductGrid({ onAdd }) {
   return (
-    <section id="new-arrivals" className="px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
+    <section id="new-arrivals" className="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -266,7 +266,7 @@ function ProductGrid({ onAdd }) {
 
 function EditorialBanner() {
   return (
-    <section id="best-sellers" className="px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
+    <section id="best-sellers" className="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-ink text-white shadow-soft sm:rounded-[3rem]">
         <div className="grid lg:grid-cols-[0.88fr_1.12fr]">
           <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-14">
@@ -287,7 +287,7 @@ function EditorialBanner() {
 
 function CollectionHighlight() {
   return (
-    <section id="about" className="px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
+    <section id="about" className="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2 lg:items-center">
         <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="overflow-hidden rounded-[2.4rem] shadow-soft">
           <img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1300&q=85" alt="Neutral edit fashion collection" className="h-[520px] w-full object-cover" loading="lazy" />
@@ -316,7 +316,7 @@ function Benefits() {
   const icons = [Leaf, PackageCheck, Truck, ShieldCheck];
 
   return (
-    <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+    <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div className="mx-auto grid max-w-7xl gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
         {benefits.map(([title, text], index) => {
           const Icon = icons[index];
@@ -337,7 +337,7 @@ function Benefits() {
 
 function Testimonials() {
   return (
-    <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
+    <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 text-center">
           <p className="text-sm font-bold uppercase tracking-[0.22em] text-clay">Social Proof</p>
@@ -361,17 +361,17 @@ function Testimonials() {
 
 function Newsletter() {
   return (
-    <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
-      <div className="mx-auto max-w-7xl rounded-[2rem] border border-ink/10 bg-white/65 p-6 shadow-soft sm:rounded-[3rem] sm:p-10 lg:p-14">
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+    <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <div className="mx-auto max-w-7xl rounded-[2rem] border border-ink/10 bg-white/65 p-8 shadow-soft backdrop-blur-sm sm:rounded-[3rem] sm:p-12 lg:p-16">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.22em] text-clay">Get first access</p>
-            <h2 className="mt-3 text-4xl font-black tracking-[-0.05em] text-ink sm:text-6xl">New drops, early offers, styling notes.</h2>
-            <p className="mt-4 leading-8 text-muted">No spam. Just the kind of brand touch that makes the portfolio feel client-ready.</p>
+            <h2 className="mt-4 text-4xl font-black tracking-[-0.05em] text-ink sm:text-5xl lg:text-6xl">New drops, early offers, styling notes.</h2>
+            <p className="mt-5 text-base leading-8 text-muted">No spam. Just early access to new collections, exclusive offers, and styling inspiration.</p>
           </div>
-          <form className="flex flex-col gap-3 rounded-[1.5rem] bg-paper p-3 sm:flex-row">
-            <input type="email" required placeholder="Enter your email" className="min-h-12 flex-1 rounded-full border border-transparent bg-white px-5 text-sm font-medium text-ink outline-none transition focus:border-clay" />
-            <Button type="submit">Join List <ArrowRight size={17} /></Button>
+          <form className="flex flex-col gap-3 rounded-[1.5rem] bg-paper p-3 shadow-inner sm:flex-row">
+            <input type="email" required placeholder="Enter your email address" className="min-h-[52px] flex-1 rounded-full border border-transparent bg-white px-6 text-sm font-medium text-ink outline-none transition-colors focus:border-clay focus:ring-1 focus:ring-clay" />
+            <Button type="submit" className="min-h-[52px]">Join List <ArrowRight size={17} /></Button>
           </form>
         </div>
       </div>
@@ -382,33 +382,33 @@ function Newsletter() {
 function Footer() {
   const links = ['Shop', 'About', 'Contact', 'Shipping', 'Returns', 'Privacy'];
   return (
-    <footer className="border-t border-ink/10 px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
+    <footer className="border-t border-ink/10 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
         <div>
           <div className="flex items-center gap-2">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-ink text-xs font-bold text-white">V</span>
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-ink text-xs font-bold text-white transition-transform hover:rotate-6">V</span>
             <span className="text-lg font-extrabold tracking-[0.24em] text-ink">VELORA</span>
           </div>
-          <p className="mt-4 max-w-sm leading-7 text-muted">Everyday luxury streetwear landing page built as a premium ecommerce portfolio project.</p>
+          <p className="mt-5 max-w-sm text-sm leading-7 text-muted">Elevated everyday essentials. Designed with intention and crafted for comfort.</p>
         </div>
         <div>
-          <h3 className="mb-4 text-sm font-extrabold uppercase tracking-[0.18em] text-ink">Links</h3>
-          <div className="grid grid-cols-2 gap-3 text-sm font-medium text-muted">
-            {links.map((link) => <a key={link} href="#home" className="hover:text-ink">{link}</a>)}
+          <h3 className="mb-5 text-xs font-extrabold uppercase tracking-[0.2em] text-ink">Links</h3>
+          <div className="grid grid-cols-2 gap-4 text-sm font-medium text-muted">
+            {links.map((link) => <a key={link} href="#home" className="transition hover:text-ink">{link}</a>)}
           </div>
         </div>
         <div>
-          <h3 className="mb-4 text-sm font-extrabold uppercase tracking-[0.18em] text-ink">Social</h3>
+          <h3 className="mb-5 text-xs font-extrabold uppercase tracking-[0.2em] text-ink">Social</h3>
           <div className="flex gap-3">
             {['Instagram', 'X', 'Pinterest'].map((item) => (
-              <a key={item} href="#home" className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 text-ink transition hover:bg-ink hover:text-white" aria-label={item}>
+              <a key={item} href="#home" className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 bg-white/50 text-ink transition hover:bg-ink hover:text-white" aria-label={item}>
                 {item === 'Instagram' ? <Instagram size={17} /> : item[0]}
               </a>
             ))}
           </div>
         </div>
       </div>
-      <div className="mx-auto mt-8 max-w-7xl border-t border-ink/10 pt-6 text-sm text-muted">© 2026 VELORA. Portfolio ecommerce concept.</div>
+      <div className="mx-auto mt-12 max-w-7xl border-t border-ink/10 pt-8 text-xs font-medium text-muted">© 2026 VELORA. All rights reserved.</div>
     </footer>
   );
 }
@@ -436,34 +436,38 @@ function CartDrawer({ isOpen, items, onClose, onRemove }) {
         </div>
         <div className="flex-1 overflow-auto p-5">
           {items.length === 0 ? (
-            <div className="flex h-full flex-col items-center justify-center text-center">
-              <ShoppingBag size={42} className="text-muted" />
-              <p className="mt-4 font-bold text-ink">Your cart is clean right now.</p>
-              <p className="mt-2 text-sm leading-6 text-muted">Add a product to show clients the ecommerce interaction.</p>
+            <div className="flex h-full flex-col items-center justify-center text-center px-4">
+              <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-sm">
+                <ShoppingBag size={32} className="text-clay" />
+              </div>
+              <p className="text-lg font-bold text-ink">Your cart is empty.</p>
+              <p className="mt-2 text-sm leading-6 text-muted">Discover our new arrivals to find your next staple.</p>
+              <Button onClick={onClose} variant="light" className="mt-8 min-h-[48px] w-full max-w-[200px]">Shop Collection</Button>
             </div>
           ) : (
             <div className="grid gap-4">
               {items.map((item, index) => (
-                <div key={`${item.id}-${index}`} className="flex gap-4 rounded-[1.4rem] bg-white/70 p-3">
-                  <img src={item.image} alt={item.name} className="h-24 w-20 rounded-2xl object-cover" />
-                  <div className="flex flex-1 flex-col justify-between">
+                <div key={`${item.id}-${index}`} className="flex gap-4 rounded-[1.2rem] border border-ink/5 bg-white/70 p-3 shadow-sm transition-shadow hover:shadow">
+                  <img src={item.image} alt={item.name} className="h-24 w-20 rounded-xl object-cover" />
+                  <div className="flex flex-1 flex-col justify-between py-1">
                     <div>
                       <h3 className="font-extrabold text-ink">{item.name}</h3>
                       <p className="mt-1 text-sm font-semibold text-muted">{item.price}</p>
                     </div>
-                    <button onClick={() => onRemove(index)} className="w-fit text-xs font-bold uppercase tracking-[0.16em] text-clay">Remove</button>
+                    <button onClick={() => onRemove(index)} className="w-fit text-xs font-bold uppercase tracking-[0.16em] text-clay transition hover:text-ink">Remove</button>
                   </div>
                 </div>
               ))}
             </div>
           )}
         </div>
-        <div className="border-t border-ink/10 p-5">
-          <div className="mb-4 flex items-center justify-between text-sm font-bold text-ink">
+        <div className="border-t border-ink/10 bg-white/50 p-6 backdrop-blur-md">
+          <div className="mb-5 flex items-center justify-between text-base font-bold text-ink">
             <span>Subtotal</span>
             <span>₹{subtotal.toLocaleString('en-IN')}</span>
           </div>
-          <Button className="w-full">Checkout Concept <ArrowRight size={17} /></Button>
+          <p className="mb-5 text-xs text-muted">Shipping and taxes calculated at checkout.</p>
+          <Button className="w-full min-h-[52px] text-base">Proceed to Checkout <ArrowRight size={18} /></Button>
         </div>
       </motion.aside>
     </>
