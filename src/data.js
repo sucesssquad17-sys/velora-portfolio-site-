@@ -20,16 +20,8 @@ export const railImages = [
     alt: 'VELORA minimal outerwear jacket rack',
   },
   {
-    src: 'https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=800&q=80',
-    alt: 'VELORA casual streetwear lifestyle fit',
-  },
-  {
     src: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=800&q=80',
     alt: 'VELORA premium knitted fabric texture',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80',
-    alt: 'VELORA oversized heavy hoodie editorial',
   }
 ];
 
@@ -160,21 +152,15 @@ export const benefits = [
 
 export const testimonials = [
   {
-    name: 'Aarav',
-    handle: '@aarav_styles',
-    quote: 'The hoodie feels premium without being overpriced. The landing page makes the brand feel real.',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80'
+    name: 'Aarav M.',
+    quote: 'The hoodie feels premium without being overpriced. The landing page makes the brand feel real.'
   },
   {
-    name: 'Meera',
-    handle: '@meera.daily',
-    quote: 'Finally found basics that actually look styled. The mobile shopping flow feels super clean.',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80'
+    name: 'Meera S.',
+    quote: 'Finally found basics that actually look styled. The mobile shopping flow feels super clean.'
   },
   {
-    name: 'Kabir',
-    handle: '@kabirfits',
-    quote: 'The fit is relaxed but still sharp. I love how editorial the whole brand presentation feels.',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80'
+    name: 'Kabir D.',
+    quote: 'The fit is relaxed but still sharp. I love how editorial the whole brand presentation feels.'
   }
 ];
