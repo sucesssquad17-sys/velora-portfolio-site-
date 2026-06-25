@@ -44,7 +44,7 @@ export const categories = [
     name: 'Outerwear',
     tagline: 'Refined protection for cold seasons.',
     description: 'Water-resistant shells and insulated puffer layers designed for warmth and architectural volume.',
-    heroImage: 'https://images.unsplash.com/photo-1542475094-1a3b934bfcc1?auto=format&fit=crop&w=1200&q=80',
-    cardImage: 'https://images.unsplash.com/photo-1542475094-1a3b934bfcc1?auto=format&fit=crop&w=600&q=80',
+    heroImage: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1200&q=80',
+    cardImage: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=600&q=80',
   }
 ];

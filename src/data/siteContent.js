@@ -4,11 +4,11 @@ export const railImages = [
     alt: 'VELORA premium editorial lifestyle shot'
   },
   {
-    src: 'https://images.unsplash.com/photo-1434389673922-921c1692ceb9?auto=format&fit=crop&w=800&q=80',
+    src: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=800&q=80',
     alt: 'VELORA folded neutral sweater flatlay'
   },
   {
-    src: 'https://images.unsplash.com/photo-1550614000-4b95d415d183?auto=format&fit=crop&w=800&q=80',
+    src: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=800&q=80',
     alt: 'VELORA fabric texture detail close up'
   },
   {
@@ -59,5 +59,5 @@ export const editorial = {
   subheading: 'Campaign II / Neutrals Only',
   paragraph: 'Designed for high frequency wear. We strip away logos, noisy graphics, and temporary trends to focus on what matters: structured silhouettes, warm neutral earth tones, and heavy cotton fibers that soften with time.',
   primaryImage: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80',
-  secondaryImage: 'https://images.unsplash.com/photo-1434389673922-921c1692ceb9?auto=format&fit=crop&w=800&q=80'
+  secondaryImage: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=80'
 };
