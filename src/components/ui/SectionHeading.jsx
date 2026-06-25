@@ -1,15 +1,21 @@
-import { motion } from 'framer-motion';
+import React from 'react';
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
-};
-
-export function SectionHeading({ title, subtitle }) {
+export const SectionHeading = ({
+  title,
+  subtitle,
+  centered = false,
+  className = ''
+}) => {
   return (
-    <motion.div variants={fadeUp} className="mb-12 flex flex-col items-start gap-4 md:mb-16 md:flex-row md:items-end md:justify-between">
-      <h2 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">{title}</h2>
-      {subtitle && <p className="text-sm font-medium text-muted max-w-sm">{subtitle}</p>}
-    </motion.div>
+    <div className={`mb-12 ${centered ? 'text-center' : ''} ${className}`}>
+      {subtitle && (
+        <span className="text-[10px] tracking-[0.25em] uppercase font-semibold text-stone-400 block mb-2">
+          {subtitle}
+        </span>
+      )}
+      <h2 className="text-2xl md:text-3xl font-normal text-stone-900 font-serif leading-tight">
+        {title}
+      </h2>
+    </div>
   );
-}
+};

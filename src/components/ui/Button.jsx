@@ -1,13 +1,32 @@
-export function Button({ children, variant = 'dark', className = '', ...props }) {
-  const base = 'inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition duration-300 focus:outline-none focus:ring-2 focus:ring-ink/30 focus:ring-offset-2 focus:ring-offset-paper active:scale-[0.98]';
+import React from 'react';
+
+export const Button = ({
+  children,
+  onClick,
+  type = 'button',
+  variant = 'primary',
+  className = '',
+  disabled = false,
+  ...props
+}) => {
+  const baseStyle = 'inline-flex items-center justify-center text-sm font-medium transition-all duration-300 select-none focus:outline-none';
+  
   const variants = {
-    dark: 'bg-ink text-white hover:bg-clay shadow-soft',
-    light: 'border border-ink/15 bg-white/70 text-ink hover:border-ink hover:bg-white',
-    ghost: 'text-ink hover:bg-ink/5',
+    primary: 'bg-stone-900 text-stone-100 hover:bg-stone-850 px-8 py-3.5 tracking-wider uppercase font-semibold text-[11px] md:text-xs',
+    secondary: 'border border-stone-300 text-stone-800 hover:bg-stone-50 px-8 py-3.5 tracking-wider uppercase font-semibold text-[11px] md:text-xs',
+    outline: 'border border-stone-900 text-stone-900 hover:bg-stone-900 hover:text-stone-100 px-6 py-2.5 text-xs',
+    link: 'text-stone-800 underline hover:text-stone-600 p-0 hover:no-underline'
   };
+
   return (
-    <button className={`${base} ${variants[variant]} ${className}`} {...props}>
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={`${baseStyle} ${variants[variant]} ${className}`}
+      {...props}
+    >
       {children}
     </button>
   );
-}
+};
