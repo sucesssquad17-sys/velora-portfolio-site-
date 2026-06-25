@@ -4,9 +4,9 @@ import { testimonials } from '../../data/siteContent';
 
 export const TestimonialsSection = () => {
   return (
-    <section className="bg-stone-50 py-16 md:py-24 border-b border-stone-100">
+    <section className="bg-softstone py-16 md:py-24 border-b border-stone-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <span className="text-[10px] tracking-[0.25em] uppercase font-semibold text-stone-400 block mb-3">
+        <span className="text-[10px] tracking-[0.25em] uppercase font-bold text-stone-400 block mb-3">
           Voice of the Studio
         </span>
         <h2 className="text-2xl md:text-3xl font-normal text-stone-900 font-serif leading-tight mb-12">
@@ -17,7 +17,7 @@ export const TestimonialsSection = () => {
           {testimonials.map((t, idx) => (
             <div 
               key={idx} 
-              className="bg-white border border-stone-100 p-8 flex flex-col justify-between relative shadow-sm"
+              className="bg-white border border-stone-100/60 p-8 flex flex-col justify-between relative shadow-xs rounded-xs"
             >
               <Quote className="absolute right-8 top-8 text-stone-100 h-8 w-8 stroke-1" />
               

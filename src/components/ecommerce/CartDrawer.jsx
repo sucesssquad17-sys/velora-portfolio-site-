@@ -8,7 +8,7 @@ export const CartDrawer = ({
   onClose,
   cartItems,
   onUpdateQuantity,
-  onRemoveItem,
+  onRemove,
 }) => {
   // Prevent body scrolling when cart is open
   useEffect(() => {
@@ -74,70 +74,73 @@ export const CartDrawer = ({
                 </Button>
               </div>
             ) : (
-              cartItems.map((item, index) => (
-                <div key={`${item.id}-${item.size}-${item.color.name}`} className="flex gap-4 py-4 first:pt-0">
-                  {/* Item Image */}
-                  <div className="h-20 w-16 bg-stone-100 flex-shrink-0">
-                    <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
-                  </div>
-
-                  {/* Item Info */}
-                  <div className="flex-1 flex flex-col justify-between">
-                    <div>
-                      <div className="flex justify-between items-start gap-2">
-                        <h4 className="text-xs font-semibold text-stone-900">{item.name}</h4>
-                        <span className="text-xs font-semibold text-stone-850">
-                          {formatPrice(item.price * item.quantity)}
-                        </span>
-                      </div>
-                      
-                      {/* Selected Attributes */}
-                      <div className="flex flex-wrap gap-x-3 text-[10px] text-stone-400 mt-1 uppercase tracking-wider font-semibold">
-                        <span>Size: {item.size}</span>
-                        <span className="flex items-center gap-1">
-                          Color: 
-                          <span 
-                            className="inline-block h-2.5 w-2.5 rounded-full border border-stone-200" 
-                            style={{ backgroundColor: item.color.code }}
-                          />
-                          {item.color.name}
-                        </span>
-                      </div>
+              cartItems.map((item) => {
+                const itemKey = `${item.id}-${item.size}-${item.color?.name || ''}`;
+                return (
+                  <div key={itemKey} className="flex gap-4 py-4 first:pt-0">
+                    {/* Item Image */}
+                    <div className="h-20 w-16 bg-stone-50 flex-shrink-0">
+                      <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
                     </div>
 
-                    {/* Quantity controls & Delete */}
-                    <div className="flex justify-between items-center mt-2">
-                      <div className="flex items-center border border-stone-200">
-                        <button
-                          onClick={() => onUpdateQuantity(index, item.quantity - 1)}
-                          className="px-2.5 py-1 text-stone-500 hover:text-stone-900 transition-colors"
-                          aria-label="Decrease quantity"
-                        >
-                          <Minus size={11} />
-                        </button>
-                        <span className="px-2 text-xs font-medium text-stone-900 select-none">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() => onUpdateQuantity(index, item.quantity + 1)}
-                          className="px-2.5 py-1 text-stone-500 hover:text-stone-900 transition-colors"
-                          aria-label="Increase quantity"
-                        >
-                          <Plus size={11} />
-                        </button>
+                    {/* Item Info */}
+                    <div className="flex-1 flex flex-col justify-between">
+                      <div>
+                        <div className="flex justify-between items-start gap-2">
+                          <h4 className="text-xs font-semibold text-stone-900">{item.name}</h4>
+                          <span className="text-xs font-semibold text-stone-850">
+                            {formatPrice(item.price * item.quantity)}
+                          </span>
+                        </div>
+                        
+                        {/* Selected Attributes */}
+                        <div className="flex flex-wrap gap-x-3 text-[10px] text-stone-400 mt-1 uppercase tracking-wider font-semibold">
+                          <span>Size: {item.size}</span>
+                          <span className="flex items-center gap-1">
+                            Color: 
+                            <span 
+                              className="inline-block h-2.5 w-2.5 rounded-full border border-stone-205" 
+                              style={{ backgroundColor: item.color.code }}
+                            />
+                            {item.color.name}
+                          </span>
+                        </div>
                       </div>
 
-                      <button
-                        onClick={() => onRemoveItem(index)}
-                        className="text-stone-400 hover:text-stone-600 p-1 transition-colors"
-                        aria-label="Delete item"
-                      >
-                        <Trash2 size={13} />
-                      </button>
+                      {/* Quantity controls & Delete */}
+                      <div className="flex justify-between items-center mt-2">
+                        <div className="flex items-center border border-stone-200">
+                          <button
+                            onClick={() => onUpdateQuantity(itemKey, item.quantity - 1)}
+                            className="px-2.5 py-1 text-stone-500 hover:text-stone-900 transition-colors"
+                            aria-label="Decrease quantity"
+                          >
+                            <Minus size={11} />
+                          </button>
+                          <span className="px-2 text-xs font-medium text-stone-900 select-none">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() => onUpdateQuantity(itemKey, item.quantity + 1)}
+                            className="px-2.5 py-1 text-stone-500 hover:text-stone-900 transition-colors"
+                            aria-label="Increase quantity"
+                          >
+                            <Plus size={11} />
+                          </button>
+                        </div>
+
+                        <button
+                          onClick={() => onRemove(itemKey)}
+                          className="text-stone-400 hover:text-stone-600 p-1 transition-colors"
+                          aria-label="Delete item"
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
 

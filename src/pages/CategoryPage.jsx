@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { categories } from '../data/categories';
 import { products } from '../data/products';
 import { Breadcrumbs } from '../components/ecommerce/Breadcrumbs';
-import { ProductGrid } from '../components/ecommerce/ProductGrid';
+import { ProductCard } from '../components/ecommerce/ProductCard';
 import { OptimizedImage } from '../components/ui/OptimizedImage';
 
 export const CategoryPage = ({ onAddToCart }) => {
@@ -45,25 +45,33 @@ export const CategoryPage = ({ onAddToCart }) => {
   return (
     <div className="w-full bg-white pt-16 min-h-screen">
       
-      {/* Category Hero / Title block */}
-      <section className="relative bg-stone-50 border-b border-stone-100">
-        {/* Visual Category Background */}
-        <div className="w-full h-64 md:h-80 relative overflow-hidden bg-stone-200">
-          <img 
-            src={category.heroImage} 
-            alt={category.name} 
-            className="w-full h-full object-cover opacity-80"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-stone-950/20" />
-          
-          <div className="absolute inset-0 flex flex-col justify-end px-4 py-8 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif text-white font-normal drop-shadow-sm mb-2">
-              {category.name}
-            </h1>
-            <p className="text-xs sm:text-sm text-stone-100/90 font-sans max-w-md drop-shadow-sm">
-              {category.description}
-            </p>
+      {/* Category Hero: Premium Split Column Editorial Layout */}
+      <section className="bg-cream border-b border-stone-100 py-12 sm:py-16 md:py-20 text-left">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Content */}
+            <div className="lg:col-span-6 flex flex-col justify-center">
+              <span className="text-[9px] tracking-[0.25em] font-bold text-stone-400 uppercase mb-3">
+                Collection Selection
+              </span>
+              <h1 className="text-3xl sm:text-4xl md:text-[44px] font-serif text-stone-905 font-normal leading-tight mb-4">
+                {category.name}
+              </h1>
+              <p className="text-xs sm:text-sm text-stone-500 font-sans leading-relaxed max-w-lg">
+                {category.description}
+              </p>
+            </div>
+            
+            {/* Right Image */}
+            <div className="lg:col-span-6 max-h-72 overflow-hidden bg-stone-50 rounded-xs border border-stone-100">
+              <OptimizedImage 
+                src={category.heroImage} 
+                alt={category.name} 
+                aspectRatio="aspect-[16/9]"
+                className="w-full object-cover"
+                loading="eager"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -78,15 +86,15 @@ export const CategoryPage = ({ onAddToCart }) => {
           
           {/* Fit Filters */}
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[10px] tracking-wider uppercase font-semibold text-stone-400 mr-2">Fit:</span>
+            <span className="text-[10px] tracking-wider uppercase font-bold text-stone-400 mr-2">Fit:</span>
             {uniqueFits.map((fit) => (
               <button
                 key={fit}
                 onClick={() => setSelectedFit(fit)}
-                className={`px-4 py-1.5 border text-xs transition-colors select-none ${
+                className={`px-4 py-1.5 border text-xs tracking-wider uppercase font-semibold transition-colors select-none rounded-xs ${
                   selectedFit === fit
-                    ? 'border-stone-900 bg-stone-900 text-white font-semibold'
-                    : 'border-stone-200 text-stone-600 hover:border-stone-400 hover:text-stone-950'
+                    ? 'border-stone-900 bg-stone-900 text-white font-bold'
+                    : 'border-stone-200 text-stone-605 bg-white hover:border-stone-400 hover:text-stone-950'
                 }`}
               >
                 {fit}
@@ -95,17 +103,63 @@ export const CategoryPage = ({ onAddToCart }) => {
           </div>
 
           {/* Product count */}
-          <span className="text-[11px] text-stone-400 font-sans font-medium">
-            Showing {filteredProducts.length} of {categoryProducts.length} {categoryProducts.length === 1 ? 'object' : 'objects'}
+          <span className="text-[11px] text-stone-400 font-sans font-semibold uppercase tracking-wider">
+            Showing {filteredProducts.length} of {categoryProducts.length} {categoryProducts.length === 1 ? 'item' : 'items'}
           </span>
         </div>
 
-        {/* Filtered Grid */}
+        {/* Filtered Grid with Editorial Style Note inline */}
         <div className="mb-20">
-          <ProductGrid 
-            products={filteredProducts}
-            onAddToCart={onAddToCart}
-          />
+          {/* First Row of Products */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12">
+            {filteredProducts.slice(0, 2).map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onAddToCart={onAddToCart}
+              />
+            ))}
+          </div>
+
+          {/* Style Note Block inserted between rows */}
+          {filteredProducts.length >= 2 && (
+            <div className="my-12 sm:my-16 grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 bg-cream border border-stone-200/60 p-6 sm:p-8 items-center rounded-xs">
+              <div className="md:col-span-4 max-h-48 overflow-hidden rounded-xs border border-stone-100 bg-stone-50">
+                <OptimizedImage
+                  src={category.cardImage}
+                  alt="Style Note Mood"
+                  aspectRatio="aspect-[3/2]"
+                  className="w-full object-cover"
+                />
+              </div>
+              <div className="md:col-span-8 flex flex-col text-left">
+                <span className="text-[9px] tracking-[0.2em] uppercase font-bold text-stone-400 mb-1.5">Style Note</span>
+                <h4 className="text-sm font-semibold text-stone-900 uppercase tracking-wider mb-2">Curated Rotation Alignment</h4>
+                <p className="text-xs text-stone-500 font-sans leading-relaxed">
+                  Our {category.name} collection is crafted for continuous versatility. Layer these structural silhouettes with tonal, lightweight fabrics to establish a balance of drape and premium weight suited for high-frequency wear.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Second Row of Products */}
+          {filteredProducts.length > 2 && (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12">
+              {filteredProducts.slice(2).map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onAddToCart={onAddToCart}
+                />
+              ))}
+            </div>
+          )}
+
+          {filteredProducts.length === 0 && (
+            <div className="text-center py-12 text-stone-550 border border-dashed border-stone-200 rounded-xs">
+              No products found matching this fit.
+            </div>
+          )}
         </div>
 
         {/* Horizontal Mini-Gallery / Related Categories */}

@@ -13,6 +13,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.bg-cream {
+  background-color: #FAF9F5;
+}
+
+.bg-softstone {
+  background-color: #F3F2EE;
+}
+
+.bg-darkink {
+  background-color: #1C1A17;
+}
+
+.text-cream {
+  color: #FAF9F6;
+}
+
 * {
   box-sizing: border-box;
 }

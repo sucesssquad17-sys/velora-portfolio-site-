@@ -19,6 +19,11 @@ export const ProductPage = ({ onAddToCart }) => {
   const [activeImage, setActiveImage] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState(null);
+  const [openSection, setOpenSection] = useState('details');
+
+  const toggleSection = (sectionName) => {
+    setOpenSection(openSection === sectionName ? '' : sectionName);
+  };
 
   // Reset attributes when URL slug changes
   useEffect(() => {
@@ -26,6 +31,7 @@ export const ProductPage = ({ onAddToCart }) => {
       setActiveImage(product.image);
       setSelectedSize(product.sizes?.[0] || 'M');
       setSelectedColor(product.colors?.[0] || null);
+      setOpenSection('details');
       window.scrollTo(0, 0);
     }
   }, [slug, product]);
@@ -81,13 +87,13 @@ export const ProductPage = ({ onAddToCart }) => {
           {/* Left Column: Image gallery */}
           <div className="lg:col-span-7 flex flex-col md:flex-row gap-4">
             
-            {/* Gallery thumbnails (stacked or side lists) */}
-            <div className="flex md:flex-col gap-2 order-2 md:order-1 flex-shrink-0">
+            {/* Gallery thumbnails (horizontal scroll on mobile, stacked list on desktop) */}
+            <div className="flex md:flex-col flex-nowrap overflow-x-auto md:overflow-visible gap-2 order-2 md:order-1 flex-shrink-0 max-w-full pb-2 md:pb-0 scrollbar-none">
               {product.gallery.map((imgUrl, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveImage(imgUrl)}
-                  className={`h-16 w-14 sm:h-20 sm:w-16 border bg-stone-50 overflow-hidden flex-shrink-0 transition-colors ${
+                  className={`h-16 w-14 sm:h-20 sm:w-16 border bg-stone-50 overflow-hidden flex-shrink-0 transition-colors rounded-xs ${
                     activeImage === imgUrl ? 'border-stone-900' : 'border-stone-200'
                   }`}
                   aria-label={`View image angle ${idx + 1}`}
@@ -103,14 +109,14 @@ export const ProductPage = ({ onAddToCart }) => {
                 src={activeImage || product.image}
                 alt={product.name}
                 aspectRatio="aspect-[4/5]"
-                className="w-full shadow-sm"
+                className="w-full shadow-sm rounded-xs border border-stone-100"
                 eager
               />
             </div>
           </div>
 
-          {/* Right Column: Descriptions & Configurator */}
-          <div className="lg:col-span-5 flex flex-col text-left">
+          {/* Right Column: Descriptions & Configurator (Sticky on Desktop) */}
+          <div className="lg:col-span-5 flex flex-col text-left lg:sticky lg:top-24 self-start">
             {/* Tag label */}
             {product.tag && (
               <span className="inline-block text-[9px] uppercase tracking-widest font-semibold text-stone-400 mb-2">
@@ -213,18 +219,98 @@ export const ProductPage = ({ onAddToCart }) => {
               </Button>
             </div>
 
-            {/* Product Features details list */}
+            {/* Product Specifications Accordions */}
             {product.features && (
-              <div className="bg-stone-50 border border-stone-100 p-6">
-                <h4 className="text-[10px] tracking-wider uppercase font-bold text-stone-900 mb-3">Specifications</h4>
-                <ul className="space-y-2 text-xs text-stone-500 font-sans list-none p-0 m-0">
-                  {product.features.map((feat, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <Check size={12} className="text-stone-800 mt-0.5 flex-shrink-0" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
+              <div className="border-t border-stone-200 mt-8">
+                {/* Accordion: Details & Specs */}
+                <div className="border-b border-stone-200 py-4">
+                  <button
+                    type="button"
+                    onClick={() => toggleSection('details')}
+                    className="w-full flex items-center justify-between text-[11px] tracking-widest uppercase font-bold text-stone-900 focus:outline-none"
+                  >
+                    <span>Details &amp; Specifications</span>
+                    <span className="text-stone-400 font-normal text-base">{openSection === 'details' ? '−' : '+'}</span>
+                  </button>
+                  {openSection === 'details' && (
+                    <div className="mt-3 text-xs text-stone-500 font-sans leading-relaxed space-y-2">
+                      <ul className="space-y-2 list-none p-0 m-0">
+                        {product.features.map((feat, idx) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-stone-400 mt-1.5 flex-shrink-0" />
+                            <span>{feat}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+
+                {/* Accordion: Fit Guide */}
+                <div className="border-b border-stone-200 py-4">
+                  <button
+                    type="button"
+                    onClick={() => toggleSection('fit')}
+                    className="w-full flex items-center justify-between text-[11px] tracking-widest uppercase font-bold text-stone-900 focus:outline-none"
+                  >
+                    <span>Fit &amp; Sizing</span>
+                    <span className="text-stone-400 font-normal text-base">{openSection === 'fit' ? '−' : '+'}</span>
+                  </button>
+                  {openSection === 'fit' && (
+                    <div className="mt-3 text-xs text-stone-500 font-sans leading-relaxed">
+                      <p className="mb-2">
+                        Cut in a <strong>{product.fit}</strong> fit. We recommend selecting your normal size. For a more exaggerated silhouette, choose one size larger.
+                      </p>
+                      <p>
+                        Model is 188cm / 6'2" and is wearing size Medium.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Accordion: Materials & Care */}
+                <div className="border-b border-stone-200 py-4">
+                  <button
+                    type="button"
+                    onClick={() => toggleSection('materials')}
+                    className="w-full flex items-center justify-between text-[11px] tracking-widest uppercase font-bold text-stone-900 focus:outline-none"
+                  >
+                    <span>Materials &amp; Care</span>
+                    <span className="text-stone-400 font-normal text-base">{openSection === 'materials' ? '−' : '+'}</span>
+                  </button>
+                  {openSection === 'materials' && (
+                    <div className="mt-3 text-xs text-stone-500 font-sans leading-relaxed">
+                      <p className="mb-2">
+                        Crafted from sustainably sourced premium fibers, pre-washed to minimize shrinkage and ensure high shape-retention over time.
+                      </p>
+                      <p>
+                        Machine wash cold with like colors on a gentle cycle. Lay flat to dry. Cool iron if needed.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Accordion: Shipping & Returns */}
+                <div className="border-b border-stone-200 py-4">
+                  <button
+                    type="button"
+                    onClick={() => toggleSection('shipping')}
+                    className="w-full flex items-center justify-between text-[11px] tracking-widest uppercase font-bold text-stone-900 focus:outline-none"
+                  >
+                    <span>Shipping &amp; Returns</span>
+                    <span className="text-stone-400 font-normal text-base">{openSection === 'shipping' ? '−' : '+'}</span>
+                  </button>
+                  {openSection === 'shipping' && (
+                    <div className="mt-3 text-xs text-stone-500 font-sans leading-relaxed">
+                      <p className="mb-2">
+                        Complimentary standard shipping on all orders above $150. Normal processing time is 1–2 business days.
+                      </p>
+                      <p>
+                        Returns are accepted within 14 days of delivery. Items must be unworn, unwashed, and in their original packaging with all tags attached.
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 

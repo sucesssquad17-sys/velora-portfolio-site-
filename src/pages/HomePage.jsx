@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Hero } from '../components/home/Hero';
 import { CollectionsSection } from '../components/home/CollectionsSection';
 import { SectionHeading } from '../components/ui/SectionHeading';
@@ -10,6 +11,21 @@ import { NewsletterSection } from '../components/home/NewsletterSection';
 import { products } from '../data/products';
 
 export const HomePage = ({ onAddToCart }) => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        const timer = setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 120);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [location.hash]);
+
   // New Arrivals: Limit to first 8 items
   const newArrivals = products.slice(0, 8);
   
@@ -25,7 +41,7 @@ export const HomePage = ({ onAddToCart }) => {
       <CollectionsSection />
 
       {/* 3. New Arrivals (Product Grid) */}
-      <section id="new-arrivals" className="bg-white py-16 md:py-24 border-b border-stone-100">
+      <section id="new-arrivals" className="bg-softstone py-16 md:py-24 border-b border-stone-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             title="New Arrivals"
