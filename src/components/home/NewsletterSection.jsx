@@ -2,43 +2,50 @@ import React, { useState } from 'react';
 
 export const NewsletterSection = () => {
   const [email, setEmail] = useState('');
+  const [done, setDone] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!email) return;
-    alert(`Thank you for subscribing, ${email}! We've saved your interest in VELORA.`);
-    setEmail('');
+    setDone(true);
+    setTimeout(() => { setDone(false); setEmail(''); }, 4000);
   };
 
   return (
-    <section className="bg-stone-900 text-stone-100 py-32 border-b border-stone-800">
-      <div className="max-w-xl mx-auto px-4 sm:px-6 text-center">
-        <span className="text-[10px] tracking-[0.3em] uppercase font-bold text-stone-500 block mb-6">
-          The Waitlist
-        </span>
-        <h2 className="text-3xl md:text-5xl font-normal text-white font-display leading-[1.1] mb-6">
-          Exclusive Access.
+    <section className="bg-stone-950 py-32 px-6">
+      <div className="max-w-xl mx-auto text-center">
+        <p className="text-2xs tracking-superwide text-stone-500 uppercase font-medium mb-5">Exclusive Access</p>
+        <h2 className="font-display font-light text-white text-4xl md:text-5xl leading-[1.1] mb-5">
+          Be first in line.
         </h2>
-        <p className="text-sm text-stone-400 font-sans leading-relaxed mb-12 max-w-sm mx-auto">
-          Subscribe to receive early access to campaign releases, limited capsule drops, and studio narratives.
+        <p className="text-sm text-stone-400 font-light leading-[1.8] mb-10 max-w-sm mx-auto">
+          Campaign releases, limited capsule drops, and studio narratives — delivered first to you.
         </p>
 
-        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row max-w-md mx-auto items-end gap-6 sm:gap-0">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email Address"
-            className="flex-1 border-0 border-b border-stone-700 bg-transparent px-2 py-3 text-sm text-stone-100 placeholder-stone-500 focus:outline-none focus:border-white transition-colors w-full"
-            required
-          />
-          <button 
-            type="submit" 
-            className="w-full sm:w-auto px-6 py-3 text-xs uppercase tracking-widest font-bold text-stone-400 hover:text-white transition-colors whitespace-nowrap"
-          >
-            Submit &rarr;
-          </button>
-        </form>
+        {done ? (
+          <p className="text-sm text-stone-300 font-light py-4">
+            ✓ You're on the list. We'll be in touch.
+          </p>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex max-w-sm mx-auto">
+            <input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="Email address"
+              required
+              className="flex-1 bg-transparent border-0 border-b border-stone-700 focus:border-white text-sm text-white placeholder-stone-600 py-3 focus:outline-none transition-colors duration-300"
+            />
+            <button
+              type="submit"
+              className="shrink-0 ml-6 text-[11px] tracking-widest uppercase font-medium text-stone-400 hover:text-white transition-colors py-3"
+            >
+              Subscribe →
+            </button>
+          </form>
+        )}
+
+        <p className="text-2xs text-stone-700 mt-6">No spam, ever. Unsubscribe anytime.</p>
       </div>
     </section>
   );

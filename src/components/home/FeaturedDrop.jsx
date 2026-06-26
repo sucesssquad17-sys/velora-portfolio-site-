@@ -1,44 +1,62 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { OptimizedImage } from '../ui/OptimizedImage';
-import { Button } from '../ui/Button';
 
 export const FeaturedDrop = () => {
   return (
-    <section className="bg-stone-900 text-stone-100 py-24 lg:py-32 border-b border-stone-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-          
-          <div className="order-2 lg:order-1 relative aspect-[4/5] overflow-hidden bg-stone-800">
-            <OptimizedImage
-              src="https://images.unsplash.com/photo-1523398002811-999aa8073ac9?auto=format&fit=crop&w=1200&q=80"
-              alt="Featured Outerwear Drop"
-              className="w-full h-full object-cover opacity-90 transition-opacity duration-700 hover:opacity-100"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 to-transparent pointer-events-none" />
-            <div className="absolute bottom-8 left-8">
-              <span className="text-[10px] tracking-[0.2em] font-bold uppercase text-stone-300">Edition 01</span>
-            </div>
-          </div>
+    <section className="bg-ink text-paper">
+      <div className="max-w-screen-xl mx-auto grid grid-cols-1 lg:grid-cols-2 min-h-[80vh]">
 
-          <div className="order-1 lg:order-2 flex flex-col items-start">
-            <span className="text-[10px] tracking-[0.3em] font-bold text-stone-400 uppercase mb-6 flex items-center gap-3">
-              <span className="h-px w-6 bg-stone-500" />
-              Featured Drop
+        {/* Image */}
+        <div className="relative overflow-hidden min-h-[50vh] lg:min-h-0 order-1">
+          <img
+            src="https://images.unsplash.com/photo-1523398002811-999aa8073ac9?auto=format&fit=crop&w=1200&q=85"
+            alt="Featured outerwear piece"
+            className="absolute inset-0 w-full h-full object-cover img-zoom"
+          />
+          {/* Subtle tint */}
+          <div className="absolute inset-0 bg-ink/20" />
+          {/* Corner label */}
+          <div className="absolute top-6 left-6">
+            <span className="text-[9px] tracking-superwide uppercase text-paper/70 font-medium border border-paper/30 px-3 py-1.5">
+              Drop 01 — SS26
             </span>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-display text-white mb-8 leading-[1.1]">
-              The Utility<br />Overshirt.
-            </h2>
-            <p className="text-sm text-stone-400 font-sans leading-relaxed max-w-md mb-10">
-              Constructed from a dense, water-repellent Italian cotton blend. Designed with exaggerated utility pockets and a relaxed drape for seamless transition between environments.
-            </p>
-            <Link to="/product/heavyweight-utility-overshirt-charcoal">
-              <Button variant="secondary" className="!bg-white !text-stone-900 hover:!bg-stone-200">
-                Explore the Piece
-              </Button>
+          </div>
+        </div>
+
+        {/* Copy */}
+        <div className="flex flex-col justify-center px-8 lg:px-16 py-16 lg:py-20 order-2">
+          <p className="text-2xs tracking-superwide text-paper/50 uppercase font-medium mb-6">Featured Piece</p>
+          <h2 className="font-display font-light text-paper text-5xl md:text-6xl lg:text-[68px] leading-[0.95] mb-6">
+            The Utility<br />
+            <em className="italic">Overshirt.</em>
+          </h2>
+          <p className="text-sm text-paper/60 font-light leading-[1.8] mb-10 max-w-sm">
+            Constructed from a dense, water-repellent Italian cotton blend with exaggerated utility pockets and a relaxed drape. Built for every environment.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link
+              to="/product/heavyweight-utility-overshirt-charcoal"
+              className="inline-flex items-center justify-center px-8 py-3.5 bg-paper text-ink text-[11px] font-medium tracking-widest uppercase hover:bg-stone-100 transition-colors duration-300"
+            >
+              Shop the Piece
+            </Link>
+            <Link
+              to="/category/overshirts"
+              className="inline-flex items-center justify-center px-8 py-3.5 border border-paper/30 text-paper text-[11px] font-medium tracking-widest uppercase hover:border-paper/60 transition-colors duration-300"
+            >
+              View Overshirts
             </Link>
           </div>
 
+          {/* Material callouts */}
+          <div className="flex gap-8 mt-12 pt-8 border-t border-paper/10">
+            {['Italian Cotton', 'Water-Repellent', 'Structured Fit'].map(label => (
+              <div key={label}>
+                <p className="text-2xs text-paper/40 tracking-widest uppercase font-medium">{label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

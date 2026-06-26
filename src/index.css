@@ -1,99 +1,102 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Design Tokens ──────────────────────────────────── */
 :root {
-  color: #171512;
-  background: #f7f1e8;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --c-bg: #F9F7F4;
+  --c-ink: #0F0E0C;
+  --c-muted: #9A9590;
+  --c-border: #E5E2DC;
+  --c-accent: #C5A882;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
 }
 
-.bg-cream {
-  background-color: #FAF9F5;
-}
-
-.bg-softstone {
-  background-color: #F3F2EE;
-}
-
-.bg-darkink {
-  background-color: #1C1A17;
-}
-
-.text-cream {
-  color: #FAF9F6;
-}
-
-* {
+/* ─── Base Reset ─────────────────────────────────────── */
+*, *::before, *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--c-bg);
+  color: var(--c-ink);
   min-width: 320px;
   overflow-x: hidden;
-  background-color: #FAF9F5; /* Warm off-white / Cream */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-button,
-a,
-input {
-  -webkit-tap-highlight-color: transparent;
-}
+button, a, input { -webkit-tap-highlight-color: transparent; }
 
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
+img { display: block; }
 
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+/* ─── Typography ─────────────────────────────────────── */
+.font-serif { font-family: var(--font-serif); }
+.font-sans  { font-family: var(--font-sans); }
 
-.hero-mask {
-  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
-}
+/* ─── Scrollbar ─────────────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* ─── Marquee ────────────────────────────────────────── */
 .marquee-track {
-  animation: marquee 38s linear infinite;
+  animation: marquee 50s linear infinite;
+  will-change: transform;
 }
-
-.marquee-track.reverse {
-  animation-direction: reverse;
-  animation-duration: 44s;
-}
-
-.marquee-track:hover {
-  animation-play-state: paused;
-}
+.marquee-track:hover { animation-play-state: paused; }
 
 @keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+/* ─── Hover underline link ───────────────────────────── */
+.link-underline {
+  position: relative;
+  display: inline-block;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+.link-underline:hover::after { width: 100%; }
 
-  .marquee-track,
-  .marquee-track.reverse {
-    animation: none;
-    transform: translateX(0);
-  }
+/* ─── Fade-in-up on scroll (utility) ────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  animation: fadeUp 0.7s ease forwards;
+}
+
+/* ─── Product card image scale ───────────────────────── */
+.img-zoom {
+  transition: transform 0.9s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.group:hover .img-zoom { transform: scale(1.04); }
+
+/* ─── Reduced motion ─────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee-track { animation: none; }
+  .img-zoom { transition: none; }
 }

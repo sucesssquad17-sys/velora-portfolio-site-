@@ -1,106 +1,102 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus } from 'lucide-react';
-import { OptimizedImage } from '../ui/OptimizedImage';
+import { Plus, ShoppingBag } from 'lucide-react';
 import { formatPrice } from '../../utils/formatPrice';
 
 export const ProductCard = ({ product, onAddToCart }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
-  const handleQuickAdd = (e) => {
+  const quickAdd = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    const defaultColor = product.colors?.[0] || { name: 'Default', code: '#000000' };
-    const defaultSize = product.sizes?.[0] || 'M';
-    
     onAddToCart({
       id: product.id,
       name: product.name,
       slug: product.slug,
       price: product.price,
       image: product.image,
-      color: defaultColor,
-      size: defaultSize,
-      quantity: 1
+      color: product.colors?.[0] || { name: 'Default', code: '#000' },
+      size: product.sizes?.[0] || 'M',
+      quantity: 1,
     });
   };
 
-  const hoverImage = product.gallery && product.gallery.length > 0 ? product.gallery[0] : product.image;
+  const altImage = product.gallery?.[1] || product.gallery?.[0] || product.image;
 
   return (
-    <Link 
-      to={`/product/${product.slug}`} 
-      className="group flex flex-col overflow-hidden text-left transition-opacity duration-300 hover:opacity-95"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <Link
+      to={`/product/${product.slug}`}
+      className="group block"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      {/* Product Image Container */}
-      <div className="relative overflow-hidden bg-[#F3F2EE] aspect-[4/5]">
+      {/* Image */}
+      <div className="relative aspect-[3/4] bg-stone-100 overflow-hidden">
+        {/* Primary image */}
         <img
-          src={isHovered ? hoverImage : product.image}
+          src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover transition-all duration-700 ease-out object-center"
           loading="lazy"
+          className={`absolute inset-0 w-full h-full object-cover img-zoom transition-opacity duration-700 ${hovered ? 'opacity-0' : 'opacity-100'}`}
+        />
+        {/* Alt image on hover */}
+        <img
+          src={altImage}
+          alt={product.name}
+          loading="lazy"
+          className={`absolute inset-0 w-full h-full object-cover img-zoom transition-opacity duration-700 ${hovered ? 'opacity-100' : 'opacity-0'}`}
         />
 
-        {/* Product Tag Badge */}
+        {/* Tag */}
         {product.tag && (
-          <span className="absolute left-3 top-3 bg-white text-[10px] uppercase font-semibold text-ink px-2 py-1 tracking-wide z-10">
+          <span className="absolute top-3 left-3 text-[9px] tracking-widest font-medium uppercase bg-paper text-ink px-2 py-1 z-10">
             {product.tag}
           </span>
         )}
 
-        {/* Quick Add Overlay Button (Desktop) */}
-        <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out hidden lg:block z-20">
+        {/* Quick add — desktop slide-up */}
+        <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-premium z-20 hidden lg:block">
           <button
-            onClick={handleQuickAdd}
-            className="w-full bg-white text-ink hover:bg-ink hover:text-white transition-colors py-3 text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2"
-            aria-label={`Quick add ${product.name} to cart`}
+            onClick={quickAdd}
+            className="w-full flex items-center justify-center gap-2 bg-ink text-paper py-3.5 text-[10px] tracking-widest uppercase font-medium hover:bg-stone-800 transition-colors"
           >
-            <Plus size={14} />
+            <Plus size={12} strokeWidth={2} />
             Quick Add
           </button>
         </div>
 
-        {/* Quick Add Mobile */}
+        {/* Quick add — mobile round button */}
         <button
-          onClick={handleQuickAdd}
-          className="absolute right-2 bottom-2 flex lg:hidden h-8 w-8 items-center justify-center rounded-full bg-white text-ink shadow-xs transition-transform active:scale-95 z-20"
-          aria-label={`Quick add ${product.name} to cart`}
+          onClick={quickAdd}
+          className="lg:hidden absolute bottom-2.5 right-2.5 h-9 w-9 rounded-full bg-paper/90 backdrop-blur-sm text-ink flex items-center justify-center z-20 shadow-card"
         >
-          <Plus size={16} />
+          <Plus size={14} strokeWidth={2} />
         </button>
       </div>
 
-      {/* Product Info */}
-      <div className="pt-4 pb-2 flex flex-col flex-grow">
-        <div className="flex justify-between items-start gap-2">
-          <div className="flex-grow">
-            <h3 className="text-sm font-medium text-ink leading-snug">
-              {product.name}
-            </h3>
-            <p className="text-xs text-stone-500 mt-1 capitalize">
-              {product.fit} fit
-            </p>
-            {/* Color Swatch Dots */}
-            {product.colors && product.colors.length > 0 && (
-              <div className="flex gap-1.5 mt-2">
-                {product.colors.map((color) => (
-                  <span
-                    key={color.name}
-                    className="inline-block h-2.5 w-2.5 rounded-full border border-stone-200"
-                    style={{ backgroundColor: color.code }}
-                    title={color.name}
-                  />
-                ))}
-              </div>
-            )}
+      {/* Info */}
+      <div className="pt-4 pb-1">
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0">
+            <h3 className="text-sm font-medium text-ink leading-snug truncate">{product.name}</h3>
+            <p className="text-xs text-muted mt-0.5 capitalize">{product.fit} fit</p>
           </div>
-          <span className="text-sm font-medium text-ink whitespace-nowrap">
-            {formatPrice(product.price)}
-          </span>
+          <span className="text-sm font-medium text-ink shrink-0">{formatPrice(product.price)}</span>
         </div>
+
+        {/* Color swatches */}
+        {product.colors?.length > 0 && (
+          <div className="flex gap-1.5 mt-2.5">
+            {product.colors.map(c => (
+              <span
+                key={c.name}
+                title={c.name}
+                className="h-3 w-3 rounded-full border border-stone-300"
+                style={{ backgroundColor: c.code }}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </Link>
   );

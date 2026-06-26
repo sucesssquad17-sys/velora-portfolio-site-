@@ -1,309 +1,261 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, Search, ShoppingBag, X } from 'lucide-react';
+import { Search, ShoppingBag, X, Menu } from 'lucide-react';
 import { products } from '../../data/products';
 import { formatPrice } from '../../utils/formatPrice';
 
 export const Header = ({ cartCount, onCartOpen }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen]   = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  
-  const searchInputRef = useRef(null);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [scrolled, setScrolled] = useState(false);
 
-  // Handle keypresses (e.g. Escape to close search)
+  const searchInputRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Close menu on route change
+  useEffect(() => { setMenuOpen(false); setSearchOpen(false); }, [location]);
+
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        setSearchOpen(false);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    const onScroll = () => setScrolled(window.scrollY > 32);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Focus input when search modal opens
   useEffect(() => {
-    if (searchOpen && searchInputRef.current) {
-      setTimeout(() => {
-        searchInputRef.current.focus();
-      }, 100);
-    }
+    const onKey = (e) => e.key === 'Escape' && (setSearchOpen(false), setMenuOpen(false));
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  useEffect(() => {
+    if (searchOpen) setTimeout(() => searchInputRef.current?.focus(), 80);
   }, [searchOpen]);
 
-  // Handle live search
   useEffect(() => {
-    if (!searchQuery.trim()) {
-      setSearchResults([]);
-      return;
-    }
-    const query = searchQuery.toLowerCase();
-    const filtered = products.filter(
-      (p) =>
-        p.name.toLowerCase().includes(query) ||
-        p.categorySlug.toLowerCase().includes(query)
+    if (!searchQuery.trim()) { setSearchResults([]); return; }
+    const q = searchQuery.toLowerCase();
+    setSearchResults(
+      products.filter(p =>
+        p.name.toLowerCase().includes(q) ||
+        p.categorySlug.toLowerCase().includes(q) ||
+        p.fit?.toLowerCase().includes(q)
+      ).slice(0, 12)
     );
-    setSearchResults(filtered);
   }, [searchQuery]);
 
-  const handleSearchResultClick = (slug) => {
+  const handleResultClick = (slug) => {
     setSearchOpen(false);
     setSearchQuery('');
     navigate(`/product/${slug}`);
   };
 
+  const navLinks = [
+    { label: 'New Arrivals', to: '/new-arrivals' },
+    { label: 'Collections', to: '/collections' },
+    { label: 'Best Sellers', to: '/best-sellers' },
+    { label: 'About', to: '/about' },
+  ];
+
   return (
     <>
-      <header className="fixed left-0 right-0 top-0 z-40 border-b border-stone-100 bg-white/80 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          
+      {/* ── Main Header ── */}
+      <header
+        className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 ${
+          scrolled
+            ? 'bg-[#F9F7F4]/95 backdrop-blur-sm border-b border-stone-200/70 shadow-[0_1px_0_rgba(15,14,12,0.04)]'
+            : 'bg-transparent border-b border-transparent'
+        }`}
+      >
+        <div className="mx-auto flex h-[72px] max-w-screen-xl items-center justify-between px-6 lg:px-10">
+
           {/* Logo */}
-          <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 group">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-stone-900 text-[11px] font-bold text-stone-100 transition-transform group-hover:rotate-12 duration-300">
-              V
-            </span>
-            <span className="text-[15px] font-bold tracking-[0.25em] text-stone-950">
+          <Link to="/" className="flex items-center gap-3 shrink-0">
+            <span className="text-[11px] font-semibold tracking-[0.35em] text-ink uppercase select-none">
               VELORA
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-8 text-[11px] font-semibold tracking-widest text-stone-500 uppercase lg:flex">
-            <Link 
-              to="/new-arrivals" 
-              className="transition-colors hover:text-stone-950"
-            >
-              New Arrivals
-            </Link>
-            <Link 
-              to="/collections" 
-              className="transition-colors hover:text-stone-950"
-            >
-              Collections
-            </Link>
-            <Link 
-              to="/best-sellers" 
-              className="transition-colors hover:text-stone-950"
-            >
-              Best Sellers
-            </Link>
-            <Link 
-              to="/about" 
-              className="transition-colors hover:text-stone-950"
-            >
-              About
-            </Link>
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-10">
+            {navLinks.map(({ label, to }) => (
+              <Link
+                key={to}
+                to={to}
+                className={`text-[11px] tracking-widest font-medium uppercase transition-colors duration-200 link-underline ${
+                  location.pathname === to
+                    ? 'text-ink'
+                    : 'text-stone-500 hover:text-ink'
+                }`}
+              >
+                {label}
+              </Link>
+            ))}
           </nav>
 
-          {/* Header Action Buttons */}
-          <div className="flex items-center gap-2">
-            {/* Search Toggle */}
-            <button 
-              onClick={() => setSearchOpen(true)} 
-              className="rounded-full p-2.5 text-stone-700 transition hover:bg-stone-50"
-              aria-label="Open search"
+          {/* Actions */}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="p-2.5 text-stone-600 hover:text-ink transition-colors"
+              aria-label="Search"
             >
-              <Search size={17} />
+              <Search size={18} strokeWidth={1.5} />
             </button>
 
-            {/* Cart Button */}
-            <button 
-              onClick={onCartOpen} 
-              className="relative rounded-full p-2.5 text-stone-850 transition hover:bg-stone-50"
-              aria-label="Open cart"
+            <button
+              onClick={onCartOpen}
+              className="relative p-2.5 text-stone-600 hover:text-ink transition-colors"
+              aria-label="Cart"
             >
-              <ShoppingBag size={17} />
+              <ShoppingBag size={18} strokeWidth={1.5} />
               {cartCount > 0 && (
-                <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-stone-900 px-1 text-[9px] font-bold text-stone-100">
+                <span className="absolute top-1.5 right-1.5 flex h-[14px] w-[14px] items-center justify-center rounded-full bg-ink text-[8px] font-semibold text-paper">
                   {cartCount}
                 </span>
               )}
             </button>
 
-            {/* Mobile Menu Toggle */}
-            <button 
-              onClick={() => setMenuOpen(!menuOpen)} 
-              className="rounded-full p-2.5 text-stone-700 hover:bg-stone-50 lg:hidden"
-              aria-label="Toggle menu"
+            {/* Mobile menu */}
+            <button
+              onClick={() => setMenuOpen(v => !v)}
+              className="p-2.5 text-stone-600 hover:text-ink transition-colors lg:hidden"
+              aria-label="Menu"
             >
-              {menuOpen ? <X size={19} /> : <Menu size={19} />}
+              {menuOpen ? <X size={18} strokeWidth={1.5} /> : <Menu size={18} strokeWidth={1.5} />}
             </button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation Drawer (Sidebar Slide-in) */}
-        <div className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-300 ${
-          menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}>
-          {/* Backdrop */}
-          <div 
-            className="absolute inset-0 bg-stone-900/40 backdrop-blur-[2px] transition-opacity duration-300"
-            onClick={() => setMenuOpen(false)}
-          />
-          {/* Drawer Panel */}
-          <div 
-            className={`absolute inset-y-0 right-0 w-full max-w-[300px] bg-white shadow-2xl flex flex-col p-6 transition-transform duration-300 ease-in-out transform ${
-              menuOpen ? 'translate-x-0' : 'translate-x-full'
-            }`}
-          >
-            {/* Drawer Header */}
-            <div className="flex items-center justify-between pb-6 border-b border-stone-100">
-              <span className="text-[10px] font-bold tracking-[0.25em] text-stone-900 uppercase">Navigation</span>
-              <button 
-                onClick={() => setMenuOpen(false)}
-                className="p-1 text-stone-400 hover:text-stone-900 transition-colors"
-                aria-label="Close menu"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            {/* Links */}
-            <nav className="flex flex-col py-8 text-xs font-semibold tracking-[0.2em] text-stone-500 uppercase gap-6">
-              <Link 
-                to="/new-arrivals" 
-                onClick={() => setMenuOpen(false)}
-                className="py-1 transition-colors hover:text-stone-950 border-b border-stone-50"
-              >
-                New Arrivals
-              </Link>
-              <Link 
-                to="/collections" 
-                onClick={() => setMenuOpen(false)}
-                className="py-1 transition-colors hover:text-stone-950 border-b border-stone-50"
-              >
-                Collections
-              </Link>
-              <Link 
-                to="/best-sellers" 
-                onClick={() => setMenuOpen(false)}
-                className="py-1 transition-colors hover:text-stone-950 border-b border-stone-50"
-              >
-                Best Sellers
-              </Link>
-              <Link 
-                to="/about" 
-                onClick={() => setMenuOpen(false)}
-                className="py-1 transition-colors hover:text-stone-950"
-              >
-                About
-              </Link>
-            </nav>
-
-            {/* Bottom Info / Socials */}
-            <div className="mt-auto border-t border-stone-100 pt-6 text-[10px] text-stone-400 tracking-wider">
-              <p className="font-semibold text-stone-850 uppercase mb-2">Customer Service</p>
-              <p className="mb-4">support@velora.com</p>
-              <div className="flex gap-4 uppercase font-semibold text-[9px] text-stone-500">
-                <a href="#instagram" className="hover:text-stone-900 transition-colors">Instagram</a>
-                <a href="#pinterest" className="hover:text-stone-900 transition-colors">Pinterest</a>
-              </div>
-            </div>
           </div>
         </div>
       </header>
 
-      {/* Full-screen Search Overlay Modal */}
+      {/* ── Mobile Drawer ── */}
+      <div
+        className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-400 ${
+          menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        <div
+          className="absolute inset-0 bg-ink/30 backdrop-blur-[2px]"
+          onClick={() => setMenuOpen(false)}
+        />
+        <div
+          className={`absolute right-0 inset-y-0 w-[280px] bg-paper flex flex-col transition-transform duration-400 ease-[cubic-bezier(0.215,0.61,0.355,1)] ${
+            menuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+        >
+          <div className="flex items-center justify-between px-6 h-[72px] border-b border-stone-200/60">
+            <span className="text-[10px] tracking-superwide font-medium text-muted uppercase">Menu</span>
+            <button onClick={() => setMenuOpen(false)} className="text-muted hover:text-ink transition-colors p-1">
+              <X size={17} strokeWidth={1.5} />
+            </button>
+          </div>
+
+          <nav className="flex flex-col px-6 pt-8 gap-1">
+            {navLinks.map(({ label, to }) => (
+              <Link
+                key={to}
+                to={to}
+                className="py-3.5 text-sm font-medium text-stone-700 hover:text-ink border-b border-stone-100 transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="mt-auto px-6 pb-10 pt-6 border-t border-stone-100">
+            <p className="text-[10px] tracking-widest uppercase text-muted font-medium mb-1">VELORA Studio</p>
+            <p className="text-xs text-stone-500">hello@velorastudio.com</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Search Overlay ── */}
       {searchOpen && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-[#FAF9F5]/98 backdrop-blur-xl transition-opacity duration-300">
-          <div className="flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-stone-200/50 w-full">
-            <span className="text-[10px] font-bold tracking-[0.3em] text-ink uppercase">Search VELORA</span>
-            <button 
-              onClick={() => {
-                setSearchOpen(false);
-                setSearchQuery('');
-              }}
-              className="p-2 text-stone-500 hover:text-ink transition-colors"
-              aria-label="Close search"
+        <div className="fixed inset-0 z-50 bg-paper/98 backdrop-blur-xl flex flex-col">
+          {/* Header row */}
+          <div className="flex items-center justify-between px-6 lg:px-10 h-[72px] border-b border-stone-200/50 shrink-0">
+            <span className="text-[10px] tracking-superwide font-medium text-muted uppercase">Search</span>
+            <button
+              onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
+              className="text-muted hover:text-ink transition-colors p-1"
             >
               <X size={20} strokeWidth={1.5} />
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-12 max-w-4xl mx-auto w-full flex flex-col justify-start">
-            <div className="relative mb-16">
+          {/* Search input */}
+          <div className="px-6 lg:px-16 pt-12 pb-8 max-w-4xl mx-auto w-full">
+            <div className="relative">
               <input
                 ref={searchInputRef}
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="What are you looking for?"
-                className="w-full border-0 border-b border-stone-300 bg-transparent py-4 pr-12 text-3xl sm:text-4xl md:text-5xl font-display text-ink placeholder-stone-300 focus:outline-none focus:border-ink transition-colors focus:ring-0"
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Search products…"
+                className="w-full bg-transparent border-0 border-b-2 border-stone-200 focus:border-ink text-4xl md:text-5xl lg:text-6xl font-display font-light text-ink placeholder-stone-300 py-4 focus:outline-none transition-colors duration-300"
               />
-              <Search className="absolute right-0 top-1/2 -translate-y-1/2 text-stone-300" size={32} strokeWidth={1} />
             </div>
+          </div>
 
-            {/* Results list */}
+          {/* Results area */}
+          <div className="flex-1 overflow-y-auto px-6 lg:px-16 max-w-4xl mx-auto w-full pb-16">
             {searchQuery && (
-              <div>
-                <p className="text-[10px] tracking-widest uppercase text-stone-500 font-bold mb-6">
-                  {searchResults.length} {searchResults.length === 1 ? 'Result' : 'Results'}
+              <>
+                <p className="text-2xs text-muted tracking-superwide uppercase mb-6">
+                  {searchResults.length} result{searchResults.length !== 1 ? 's' : ''}
                 </p>
                 {searchResults.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                    {searchResults.map((product) => (
-                      <div
-                        key={product.id}
-                        onClick={() => handleSearchResultClick(product.slug)}
-                        className="group cursor-pointer"
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                    {searchResults.map(p => (
+                      <button
+                        key={p.id}
+                        onClick={() => handleResultClick(p.slug)}
+                        className="group text-left"
                       >
-                        <div className="aspect-[4/5] bg-stone-100 overflow-hidden mb-4">
-                          <img src={product.image} alt={product.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <div className="aspect-[3/4] bg-stone-100 overflow-hidden mb-3">
+                          <img src={p.image} alt={p.name} className="w-full h-full object-cover img-zoom" />
                         </div>
-                        <h4 className="text-sm font-medium text-ink group-hover:underline">{product.name}</h4>
-                        <div className="flex items-center justify-between mt-1">
-                          <p className="text-xs text-stone-500">{product.categorySlug}</p>
-                          <span className="text-xs font-medium text-ink">{formatPrice(product.price)}</span>
-                        </div>
-                      </div>
+                        <p className="text-xs font-medium text-ink group-hover:underline leading-snug">{p.name}</p>
+                        <p className="text-xs text-muted mt-0.5">{formatPrice(p.price)}</p>
+                      </button>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-stone-500 font-sans font-light">No products found matching "{searchQuery}".</p>
+                  <p className="text-sm text-muted font-light">No results for "{searchQuery}"</p>
                 )}
-              </div>
+              </>
             )}
 
             {!searchQuery && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
                 <div>
-                  <h4 className="text-[10px] tracking-[0.2em] uppercase text-stone-400 font-bold mb-6 flex items-center gap-3">
-                    <span className="h-px w-4 bg-stone-300" />
-                    Popular Categories
-                  </h4>
-                  <div className="flex flex-col gap-4">
-                    {['Hoodies', 'Overshirts', 'T-Shirts', 'Trousers', 'Outerwear'].map((cat) => (
+                  <p className="text-2xs tracking-superwide text-muted uppercase font-medium mb-6">Categories</p>
+                  <div className="flex flex-col gap-0">
+                    {['Hoodies', 'Overshirts', 'T-Shirts', 'Trousers', 'Outerwear', 'Accessories'].map(cat => (
                       <button
                         key={cat}
                         onClick={() => setSearchQuery(cat)}
-                        className="text-left text-lg md:text-xl font-medium text-stone-600 hover:text-ink hover:translate-x-2 transition-all duration-300"
+                        className="text-left py-3.5 border-b border-stone-100 text-xl md:text-2xl font-display font-light text-stone-600 hover:text-ink transition-colors duration-200 group flex justify-between items-center"
                       >
                         {cat}
+                        <span className="text-sm opacity-0 group-hover:opacity-100 transition-opacity">→</span>
                       </button>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <h4 className="text-[10px] tracking-[0.2em] uppercase text-stone-400 font-bold mb-6 flex items-center gap-3">
-                    <span className="h-px w-4 bg-stone-300" />
-                    Trending Now
-                  </h4>
+                  <p className="text-2xs tracking-superwide text-muted uppercase font-medium mb-6">Trending</p>
                   <div className="grid grid-cols-2 gap-4">
-                    {products.filter(p => p.tag === 'Trending' || p.isFeatured).slice(0, 2).map(product => (
-                      <div
-                        key={product.id}
-                        onClick={() => handleSearchResultClick(product.slug)}
-                        className="group cursor-pointer"
-                      >
-                         <div className="aspect-[4/5] bg-stone-100 overflow-hidden mb-3">
-                          <img src={product.image} alt={product.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    {products.filter(p => p.isFeatured).slice(0, 2).map(p => (
+                      <button key={p.id} onClick={() => handleResultClick(p.slug)} className="group text-left">
+                        <div className="aspect-[3/4] bg-stone-100 overflow-hidden mb-3">
+                          <img src={p.image} alt={p.name} className="w-full h-full object-cover img-zoom" />
                         </div>
-                        <h4 className="text-xs font-medium text-ink truncate group-hover:underline">{product.name}</h4>
-                        <span className="text-[10px] text-stone-500 mt-1 block">{formatPrice(product.price)}</span>
-                      </div>
+                        <p className="text-xs font-medium text-ink group-hover:underline truncate">{p.name}</p>
+                        <p className="text-xs text-muted mt-0.5">{formatPrice(p.price)}</p>
+                      </button>
                     ))}
                   </div>
                 </div>

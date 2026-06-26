@@ -96,7 +96,7 @@ function App() {
 
   return (
     <Router>
-      <div className="flex min-h-screen flex-col selection:bg-stone-900 selection:text-white font-sans antialiased text-stone-900">
+      <div className="flex min-h-screen flex-col selection:bg-ink selection:text-paper font-sans antialiased text-ink">
         <Header cartCount={cartCount} onCartOpen={() => setCartOpen(true)} />
         
         <div className="flex-grow">

@@ -1,20 +1,24 @@
 import React from 'react';
 import { ProductCard } from './ProductCard';
 
-export const ProductGrid = ({ products, onAddToCart, limit }) => {
-  const displayProducts = limit ? products.slice(0, limit) : products;
-
-  if (products.length === 0) {
+export const ProductGrid = ({ products = [], onAddToCart, columns = 4 }) => {
+  if (!products || products.length === 0) {
     return (
-      <div className="text-center py-12 text-stone-500 border border-dashed border-stone-200">
-        No products found in this selection.
+      <div className="py-24 text-center">
+        <p className="text-sm text-muted">No products found.</p>
       </div>
     );
   }
 
+  const colClass = {
+    2: 'grid-cols-2',
+    3: 'grid-cols-2 md:grid-cols-3',
+    4: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
+  }[columns] || 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4';
+
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12">
-      {displayProducts.map((product) => (
+    <div className={`grid ${colClass} gap-x-5 gap-y-10 sm:gap-x-6 sm:gap-y-12`}>
+      {products.map(product => (
         <ProductCard
           key={product.id}
           product={product}
