@@ -99,7 +99,7 @@ export const CartDrawer = ({
                           <span className="flex items-center gap-1">
                             Color: 
                             <span 
-                              className="inline-block h-2.5 w-2.5 rounded-full border border-stone-205" 
+                              className="inline-block h-2.5 w-2.5 rounded-full border border-stone-200" 
                               style={{ backgroundColor: item.color.code }}
                             />
                             {item.color.name}

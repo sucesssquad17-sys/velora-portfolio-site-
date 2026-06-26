@@ -6,7 +6,7 @@ export const AnimatedImageRail = () => {
   const extendedImages = [...railImages, ...railImages];
 
   return (
-    <div className="w-full overflow-hidden border-y border-stone-100 py-6 bg-white relative hidden min-[430px]:block">
+    <div className="w-full overflow-hidden border-y border-stone-100 py-4 sm:py-6 bg-white relative">
       <style>{`
         @keyframes railMarquee {
           0% {
@@ -35,7 +35,7 @@ export const AnimatedImageRail = () => {
         {extendedImages.map((image, index) => (
           <div 
             key={index}
-            className="w-44 h-56 md:w-52 md:h-64 flex-shrink-0 bg-stone-50 overflow-hidden rounded-xs border border-stone-100"
+            className="w-32 h-40 sm:w-44 sm:h-56 md:w-52 md:h-64 flex-shrink-0 bg-stone-50 overflow-hidden rounded-xs border border-stone-100"
           >
             <img 
               src={image.src} 

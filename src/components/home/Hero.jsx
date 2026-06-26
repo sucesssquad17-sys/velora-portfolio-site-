@@ -34,9 +34,9 @@ export const Hero = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-cream pb-16 pt-24 lg:pt-32 border-b border-stone-100">
+    <section className="relative overflow-hidden bg-cream pb-12 pt-28 sm:pt-32 sm:pb-16 lg:pt-40 lg:pb-24 border-b border-stone-100">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-12 lg:mb-16">
           
           {/* Left Column: Narrative Copy */}
           <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left">
@@ -49,7 +49,7 @@ export const Hero = () => {
               {/* Badge */}
               <motion.span 
                 variants={itemVariants}
-                className="text-[9px] tracking-[0.25em] font-bold text-stone-400 uppercase mb-4"
+                className="text-[10px] tracking-[0.3em] font-bold text-stone-400 uppercase mb-4"
               >
                 Studio Collection 2026
               </motion.span>
@@ -57,15 +57,15 @@ export const Hero = () => {
               {/* Heading */}
               <motion.h1 
                 variants={itemVariants}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-normal tracking-tight text-stone-900 font-serif leading-[1.12]"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-normal tracking-tight text-stone-900 font-serif leading-[1.1]"
               >
-                Elevated essentials<br className="hidden sm:inline" /> for everyday rotation.
+                Quiet design.<br className="hidden sm:inline" /> Heavyweight presence.
               </motion.h1>
               
               {/* Paragraph */}
               <motion.p 
                 variants={itemVariants}
-                className="mt-6 max-w-lg text-sm sm:text-base leading-relaxed text-stone-500 font-sans"
+                className="mt-6 max-w-lg text-sm sm:text-base leading-relaxed text-stone-500 font-sans font-light"
               >
                 Premium heavyweight fabrics, relaxed silhouettes, and a neutral palette. Clothing that speaks softly but carries weight.
               </motion.p>
@@ -82,33 +82,52 @@ export const Hero = () => {
                   Shop New Drops
                 </Button>
               </motion.div>
+
+              {/* Trust Row */}
+              <motion.div 
+                variants={itemVariants}
+                className="mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-[10px] tracking-widest uppercase font-semibold text-stone-400 font-sans"
+              >
+                <div className="flex items-center gap-1.5">
+                  <span className="h-1 w-1 rounded-full bg-stone-300" />
+                  <span>Premium Long-Staple Cotton</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="h-1 w-1 rounded-full bg-stone-300" />
+                  <span>Complimentary Shipping</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="h-1 w-1 rounded-full bg-stone-300" />
+                  <span>Easy 7-day Returns</span>
+                </div>
+              </motion.div>
             </motion.div>
           </div>
 
           {/* Right Column: Premium Collage (Desktop Only) */}
           <div className="hidden lg:grid lg:col-span-6 grid-cols-12 gap-4 relative pl-8">
             {/* Primary Large Image */}
-            <div className="col-span-8 relative">
+            <div className="col-span-8 relative z-10">
               <OptimizedImage
                 src={railImages[0].src}
                 alt="Model styling lifestyle shot"
                 aspectRatio="aspect-[3/4]"
-                className="w-full shadow-md rounded-xs border border-stone-100"
+                className="w-full shadow-soft rounded-xs border border-stone-200/30"
               />
             </div>
             
             {/* Secondary Overlapping Stacked Image 1 */}
-            <div className="col-span-4 self-end mb-[20%]">
+            <div className="col-span-4 self-end mb-[15%] relative z-20 -ml-10">
               <OptimizedImage
                 src={railImages[1].src}
                 alt="Sweater textures"
                 aspectRatio="aspect-[4/5]"
-                className="w-full shadow-lg border border-white rounded-xs"
+                className="w-full shadow-product border border-white rounded-xs"
               />
             </div>
 
             {/* Tertiary Stacked Image 2 */}
-            <div className="absolute right-[5%] top-[10%] w-[25%] shadow-md border border-white rounded-xs bg-stone-50 overflow-hidden">
+            <div className="absolute right-[12%] top-[5%] w-[28%] shadow-soft border border-white rounded-xs bg-stone-50 overflow-hidden z-20">
               <OptimizedImage
                 src={railImages[2].src}
                 alt="Fabric detail"

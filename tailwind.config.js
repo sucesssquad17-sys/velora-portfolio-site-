@@ -14,10 +14,31 @@ export default {
         sand: '#e9ddcc',
         clay: '#8b6047',
         olive: '#5d6046',
+        cream: '#FAF9F5',
+        softstone: '#F3F2EE',
+        darkink: '#1C1A17',
+        stone: {
+          150: '#eceae6',
+          450: '#8c877e',
+          550: '#6c675e',
+          605: '#5e5950',
+          850: '#22201c',
+          905: '#12110e',
+        },
+      },
+      scale: {
+        103: '1.03',
+      },
+      spacing: {
+        8.5: '2.125rem',
+      },
+      borderRadius: {
+        xs: '2px',
       },
       boxShadow: {
         soft: '0 24px 80px rgba(40, 32, 22, 0.12)',
         product: '0 18px 48px rgba(43, 35, 26, 0.10)',
+        xs: '0 1px 2px rgba(0, 0, 0, 0.05)',
       },
     },
   },
