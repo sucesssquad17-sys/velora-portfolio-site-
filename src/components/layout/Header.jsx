@@ -49,22 +49,6 @@ export const Header = ({ cartCount, onCartOpen }) => {
     setSearchResults(filtered);
   }, [searchQuery]);
 
-  // Navigate with smooth scroll for homepage sections
-  const handleNavClick = (e, hash) => {
-    setMenuOpen(false);
-    
-    if (location.pathname === '/') {
-      e.preventDefault();
-      const element = document.getElementById(hash);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      // If not on homepage, navigate to homepage first, then scroll
-      navigate(`/#${hash}`);
-    }
-  };
-
   const handleSearchResultClick = (slug) => {
     setSearchOpen(false);
     setSearchQuery('');
@@ -88,34 +72,30 @@ export const Header = ({ cartCount, onCartOpen }) => {
 
           {/* Desktop Navigation */}
           <nav className="hidden items-center gap-8 text-[11px] font-semibold tracking-widest text-stone-500 uppercase lg:flex">
-            <a 
-              href="#new-arrivals" 
-              onClick={(e) => handleNavClick(e, 'new-arrivals')}
+            <Link 
+              to="/new-arrivals" 
               className="transition-colors hover:text-stone-950"
             >
               New Arrivals
-            </a>
-            <a 
-              href="#collections" 
-              onClick={(e) => handleNavClick(e, 'collections')}
+            </Link>
+            <Link 
+              to="/collections" 
               className="transition-colors hover:text-stone-950"
             >
               Collections
-            </a>
-            <a 
-              href="#best-sellers" 
-              onClick={(e) => handleNavClick(e, 'best-sellers')}
+            </Link>
+            <Link 
+              to="/best-sellers" 
               className="transition-colors hover:text-stone-950"
             >
               Best Sellers
-            </a>
-            <a 
-              href="#about" 
-              onClick={(e) => handleNavClick(e, 'about')}
+            </Link>
+            <Link 
+              to="/about" 
               className="transition-colors hover:text-stone-950"
             >
               About
-            </a>
+            </Link>
           </nav>
 
           {/* Header Action Buttons */}
@@ -183,34 +163,34 @@ export const Header = ({ cartCount, onCartOpen }) => {
 
             {/* Links */}
             <nav className="flex flex-col py-8 text-xs font-semibold tracking-[0.2em] text-stone-500 uppercase gap-6">
-              <a 
-                href="#new-arrivals" 
-                onClick={(e) => handleNavClick(e, 'new-arrivals')}
+              <Link 
+                to="/new-arrivals" 
+                onClick={() => setMenuOpen(false)}
                 className="py-1 transition-colors hover:text-stone-950 border-b border-stone-50"
               >
                 New Arrivals
-              </a>
-              <a 
-                href="#collections" 
-                onClick={(e) => handleNavClick(e, 'collections')}
+              </Link>
+              <Link 
+                to="/collections" 
+                onClick={() => setMenuOpen(false)}
                 className="py-1 transition-colors hover:text-stone-950 border-b border-stone-50"
               >
                 Collections
-              </a>
-              <a 
-                href="#best-sellers" 
-                onClick={(e) => handleNavClick(e, 'best-sellers')}
+              </Link>
+              <Link 
+                to="/best-sellers" 
+                onClick={() => setMenuOpen(false)}
                 className="py-1 transition-colors hover:text-stone-950 border-b border-stone-50"
               >
                 Best Sellers
-              </a>
-              <a 
-                href="#about" 
-                onClick={(e) => handleNavClick(e, 'about')}
+              </Link>
+              <Link 
+                to="/about" 
+                onClick={() => setMenuOpen(false)}
                 className="py-1 transition-colors hover:text-stone-950"
               >
                 About
-              </a>
+              </Link>
             </nav>
 
             {/* Bottom Info / Socials */}
@@ -228,78 +208,104 @@ export const Header = ({ cartCount, onCartOpen }) => {
 
       {/* Full-screen Search Overlay Modal */}
       {searchOpen && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-white/98 backdrop-blur-md transition-opacity duration-300">
-          <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-stone-100 max-w-7xl mx-auto w-full">
-            <span className="text-[10px] font-bold tracking-[0.3em] text-stone-900 uppercase">Search VELORA</span>
+        <div className="fixed inset-0 z-50 flex flex-col bg-[#FAF9F5]/98 backdrop-blur-xl transition-opacity duration-300">
+          <div className="flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-stone-200/50 w-full">
+            <span className="text-[10px] font-bold tracking-[0.3em] text-ink uppercase">Search VELORA</span>
             <button 
               onClick={() => {
                 setSearchOpen(false);
                 setSearchQuery('');
               }}
-              className="rounded-full p-2.5 text-stone-650 hover:bg-stone-50 transition-colors"
+              className="p-2 text-stone-500 hover:text-ink transition-colors"
               aria-label="Close search"
             >
-              <X size={18} />
+              <X size={20} strokeWidth={1.5} />
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-6 py-12 sm:px-8 max-w-2xl mx-auto w-full flex flex-col justify-start">
-            <div className="relative mb-12">
-              <Search className="absolute left-0 top-1/2 -translate-y-1/2 text-stone-400" size={20} />
+          <div className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-12 max-w-4xl mx-auto w-full flex flex-col justify-start">
+            <div className="relative mb-16">
               <input
                 ref={searchInputRef}
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by name, category, or fit..."
-                className="w-full border-b border-stone-200 rounded-none bg-transparent py-4 pl-9 pr-4 text-lg font-light text-stone-900 placeholder-stone-400 focus:outline-none focus:border-stone-900 transition-colors"
+                placeholder="What are you looking for?"
+                className="w-full border-0 border-b border-stone-300 bg-transparent py-4 pr-12 text-3xl sm:text-4xl md:text-5xl font-display text-ink placeholder-stone-300 focus:outline-none focus:border-ink transition-colors focus:ring-0"
               />
+              <Search className="absolute right-0 top-1/2 -translate-y-1/2 text-stone-300" size={32} strokeWidth={1} />
             </div>
 
             {/* Results list */}
             {searchQuery && (
               <div>
-                <p className="text-[10px] tracking-wider uppercase text-stone-400 font-semibold mb-4">
-                  Found {searchResults.length} {searchResults.length === 1 ? 'Result' : 'Results'}
+                <p className="text-[10px] tracking-widest uppercase text-stone-500 font-bold mb-6">
+                  {searchResults.length} {searchResults.length === 1 ? 'Result' : 'Results'}
                 </p>
                 {searchResults.length > 0 ? (
-                  <div className="divide-y divide-stone-100">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                     {searchResults.map((product) => (
                       <div
                         key={product.id}
                         onClick={() => handleSearchResultClick(product.slug)}
-                        className="flex items-center gap-4 py-3.5 cursor-pointer group transition-colors hover:bg-stone-50/50 px-2"
+                        className="group cursor-pointer"
                       >
-                        <div className="h-14 w-11 bg-stone-100 flex-shrink-0">
-                          <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+                        <div className="aspect-[4/5] bg-stone-100 overflow-hidden mb-4">
+                          <img src={product.image} alt={product.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                         </div>
-                        <div className="flex-1">
-                          <h4 className="text-xs font-semibold text-stone-900 group-hover:underline">{product.name}</h4>
-                          <p className="text-[10px] uppercase tracking-wider text-stone-400 mt-0.5">{product.categorySlug}</p>
+                        <h4 className="text-sm font-medium text-ink group-hover:underline">{product.name}</h4>
+                        <div className="flex items-center justify-between mt-1">
+                          <p className="text-xs text-stone-500">{product.categorySlug}</p>
+                          <span className="text-xs font-medium text-ink">{formatPrice(product.price)}</span>
                         </div>
-                        <span className="text-xs font-medium text-stone-850">{formatPrice(product.price)}</span>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-stone-400 py-4 font-sans font-light">No products found matching your search term.</p>
+                  <p className="text-sm text-stone-500 font-sans font-light">No products found matching "{searchQuery}".</p>
                 )}
               </div>
             )}
 
             {!searchQuery && (
-              <div>
-                <h4 className="text-[10px] tracking-wider uppercase text-stone-400 font-semibold mb-4">Suggested Categories</h4>
-                <div className="flex flex-wrap gap-2">
-                  {['Hoodies', 'Overshirts', 'T-Shirts', 'Trousers', 'Accessories', 'Outerwear'].map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setSearchQuery(cat)}
-                      className="px-4 py-1.5 border border-stone-200 text-xs text-stone-700 hover:border-stone-900 hover:text-stone-900 transition-colors uppercase tracking-wider font-medium text-[10px]"
-                    >
-                      {cat}
-                    </button>
-                  ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
+                <div>
+                  <h4 className="text-[10px] tracking-[0.2em] uppercase text-stone-400 font-bold mb-6 flex items-center gap-3">
+                    <span className="h-px w-4 bg-stone-300" />
+                    Popular Categories
+                  </h4>
+                  <div className="flex flex-col gap-4">
+                    {['Hoodies', 'Overshirts', 'T-Shirts', 'Trousers', 'Outerwear'].map((cat) => (
+                      <button
+                        key={cat}
+                        onClick={() => setSearchQuery(cat)}
+                        className="text-left text-lg md:text-xl font-medium text-stone-600 hover:text-ink hover:translate-x-2 transition-all duration-300"
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-[10px] tracking-[0.2em] uppercase text-stone-400 font-bold mb-6 flex items-center gap-3">
+                    <span className="h-px w-4 bg-stone-300" />
+                    Trending Now
+                  </h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    {products.filter(p => p.tag === 'Trending' || p.isFeatured).slice(0, 2).map(product => (
+                      <div
+                        key={product.id}
+                        onClick={() => handleSearchResultClick(product.slug)}
+                        className="group cursor-pointer"
+                      >
+                         <div className="aspect-[4/5] bg-stone-100 overflow-hidden mb-3">
+                          <img src={product.image} alt={product.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                        </div>
+                        <h4 className="text-xs font-medium text-ink truncate group-hover:underline">{product.name}</h4>
+                        <span className="text-[10px] text-stone-500 mt-1 block">{formatPrice(product.price)}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}

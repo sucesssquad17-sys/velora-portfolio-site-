@@ -93,7 +93,7 @@ export const ProductPage = ({ onAddToCart }) => {
                 <button
                   key={idx}
                   onClick={() => setActiveImage(imgUrl)}
-                  className={`h-16 w-14 sm:h-20 sm:w-16 border bg-stone-50 overflow-hidden flex-shrink-0 transition-colors rounded-xs ${
+                  className={`h-16 w-14 sm:h-20 sm:w-16 border bg-stone-50 overflow-hidden flex-shrink-0 transition-colors ${
                     activeImage === imgUrl ? 'border-stone-900' : 'border-stone-200'
                   }`}
                   aria-label={`View image angle ${idx + 1}`}
@@ -109,7 +109,7 @@ export const ProductPage = ({ onAddToCart }) => {
                 src={activeImage || product.image}
                 alt={product.name}
                 aspectRatio="aspect-[4/5]"
-                className="w-full shadow-sm rounded-xs border border-stone-100"
+                className="w-full shadow-sm border border-stone-100"
                 eager
               />
             </div>

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Button } from '../ui/Button';
 
 export const NewsletterSection = () => {
   const [email, setEmail] = useState('');
@@ -12,34 +11,33 @@ export const NewsletterSection = () => {
   };
 
   return (
-    <section className="bg-darkink text-stone-100 py-20 md:py-28 border-b border-stone-900">
+    <section className="bg-stone-900 text-stone-100 py-32 border-b border-stone-800">
       <div className="max-w-xl mx-auto px-4 sm:px-6 text-center">
-        <span className="text-[10px] tracking-[0.25em] uppercase font-bold text-stone-400 block mb-3">
-          Studio Updates
+        <span className="text-[10px] tracking-[0.3em] uppercase font-bold text-stone-500 block mb-6">
+          The Waitlist
         </span>
-        <h2 className="text-2xl md:text-3xl font-normal text-white font-serif leading-tight mb-4">
-          Join the Studio List
+        <h2 className="text-3xl md:text-5xl font-normal text-white font-display leading-[1.1] mb-6">
+          Exclusive Access.
         </h2>
-        <p className="text-xs text-stone-300 font-sans leading-relaxed mb-8 max-w-sm mx-auto">
-          Subscribe to receive campaign releases, limited capsule drops, and studio narratives. No spam, only structure.
+        <p className="text-sm text-stone-400 font-sans leading-relaxed mb-12 max-w-sm mx-auto">
+          Subscribe to receive early access to campaign releases, limited capsule drops, and studio narratives.
         </p>
 
-        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row max-w-md mx-auto items-end gap-6 sm:gap-0">
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email address"
-            className="flex-1 border border-stone-800 rounded-none bg-stone-900/60 px-4 py-3 text-xs text-stone-100 placeholder-stone-500 focus:outline-none focus:border-stone-500 focus:bg-stone-850 transition-colors"
+            placeholder="Email Address"
+            className="flex-1 border-0 border-b border-stone-700 bg-transparent px-2 py-3 text-sm text-stone-100 placeholder-stone-500 focus:outline-none focus:border-white transition-colors w-full"
             required
           />
-          <Button 
+          <button 
             type="submit" 
-            variant="white"
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto px-6 py-3 text-xs uppercase tracking-widest font-bold text-stone-400 hover:text-white transition-colors whitespace-nowrap"
           >
-            Subscribe
-          </Button>
+            Submit &rarr;
+          </button>
         </form>
       </div>
     </section>

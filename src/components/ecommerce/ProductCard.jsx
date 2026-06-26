@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import { OptimizedImage } from '../ui/OptimizedImage';
 import { formatPrice } from '../../utils/formatPrice';
 
 export const ProductCard = ({ product, onAddToCart }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   const handleQuickAdd = (e) => {
     e.preventDefault();
     e.stopPropagation();
     
-    // Add default color and size for quick add
     const defaultColor = product.colors?.[0] || { name: 'Default', code: '#000000' };
     const defaultSize = product.sizes?.[0] || 'M';
     
@@ -25,64 +26,70 @@ export const ProductCard = ({ product, onAddToCart }) => {
     });
   };
 
+  const hoverImage = product.gallery && product.gallery.length > 0 ? product.gallery[0] : product.image;
+
   return (
     <Link 
       to={`/product/${product.slug}`} 
-      className="group flex flex-col bg-white overflow-hidden text-left transition-all duration-300 hover:shadow-soft rounded-sm p-1.5 -m-1.5"
+      className="group flex flex-col overflow-hidden text-left transition-opacity duration-300 hover:opacity-95"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Product Image Container */}
-      <div className="relative overflow-hidden bg-stone-50 border border-stone-150 rounded-sm">
-        <OptimizedImage
-          src={product.image}
+      <div className="relative overflow-hidden bg-[#F3F2EE] aspect-[4/5]">
+        <img
+          src={isHovered ? hoverImage : product.image}
           alt={product.name}
-          aspectRatio="aspect-[4/5]"
-          className="w-full transition-transform duration-700 ease-out group-hover:scale-103"
+          className="w-full h-full object-cover transition-all duration-700 ease-out object-center"
+          loading="lazy"
         />
 
         {/* Product Tag Badge */}
         {product.tag && (
-          <span className="absolute left-2.5 top-2.5 bg-white/95 backdrop-blur-[2px] text-[8px] sm:text-[9px] uppercase tracking-widest font-bold text-stone-900 px-2.5 py-1 border border-stone-200/30 shadow-xs">
+          <span className="absolute left-3 top-3 bg-white text-[10px] uppercase font-semibold text-ink px-2 py-1 tracking-wide z-10">
             {product.tag}
           </span>
         )}
 
-        {/* Quick Add Overlay Button (Desktop Only) */}
-        <button
-          onClick={handleQuickAdd}
-          className="absolute inset-x-3 bottom-3 hidden lg:flex items-center justify-center gap-1.5 bg-stone-900 text-stone-100 py-3 text-[10px] uppercase font-bold tracking-widest opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 hover:bg-stone-850"
-          aria-label={`Quick add ${product.name} to cart`}
-        >
-          <Plus size={11} />
-          Quick Add
-        </button>
+        {/* Quick Add Overlay Button (Desktop) */}
+        <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out hidden lg:block z-20">
+          <button
+            onClick={handleQuickAdd}
+            className="w-full bg-white text-ink hover:bg-ink hover:text-white transition-colors py-3 text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2"
+            aria-label={`Quick add ${product.name} to cart`}
+          >
+            <Plus size={14} />
+            Quick Add
+          </button>
+        </div>
 
-        {/* Quick Add Round Button (Mobile Only) */}
+        {/* Quick Add Mobile */}
         <button
           onClick={handleQuickAdd}
-          className="absolute right-2.5 bottom-2.5 flex lg:hidden h-8.5 w-8.5 items-center justify-center rounded-full bg-white/90 backdrop-blur-[2px] border border-stone-200/40 text-stone-900 shadow-xs transition-transform active:scale-95 z-10"
+          className="absolute right-2 bottom-2 flex lg:hidden h-8 w-8 items-center justify-center rounded-full bg-white text-ink shadow-xs transition-transform active:scale-95 z-20"
           aria-label={`Quick add ${product.name} to cart`}
         >
-          <Plus size={14} />
+          <Plus size={16} />
         </button>
       </div>
 
       {/* Product Info */}
-      <div className="pt-3.5 pb-1 flex flex-col flex-grow">
-        <div className="flex justify-between items-start gap-1">
+      <div className="pt-4 pb-2 flex flex-col flex-grow">
+        <div className="flex justify-between items-start gap-2">
           <div className="flex-grow">
-            <h3 className="text-xs sm:text-[13px] font-medium text-stone-900 leading-snug group-hover:text-stone-600 transition-colors">
+            <h3 className="text-sm font-medium text-ink leading-snug">
               {product.name}
             </h3>
-            <p className="text-[9px] sm:text-[10px] text-stone-400 font-semibold uppercase tracking-wider mt-0.5">
+            <p className="text-xs text-stone-500 mt-1 capitalize">
               {product.fit} fit
             </p>
             {/* Color Swatch Dots */}
             {product.colors && product.colors.length > 0 && (
-              <div className="flex gap-1 mt-1.5">
+              <div className="flex gap-1.5 mt-2">
                 {product.colors.map((color) => (
                   <span
                     key={color.name}
-                    className="inline-block h-2 w-2 rounded-full border border-stone-200/80 shadow-xs"
+                    className="inline-block h-2.5 w-2.5 rounded-full border border-stone-200"
                     style={{ backgroundColor: color.code }}
                     title={color.name}
                   />
@@ -90,7 +97,7 @@ export const ProductCard = ({ product, onAddToCart }) => {
               </div>
             )}
           </div>
-          <span className="text-xs sm:text-[13px] font-medium text-stone-900 whitespace-nowrap mt-0.5">
+          <span className="text-sm font-medium text-ink whitespace-nowrap">
             {formatPrice(product.price)}
           </span>
         </div>

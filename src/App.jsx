@@ -10,6 +10,10 @@ import { CategoryPage } from './pages/CategoryPage';
 import { ProductPage } from './pages/ProductPage';
 import { StaticPage } from './pages/StaticPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { NewArrivalsPage } from './pages/NewArrivalsPage';
+import { CollectionsPage } from './pages/CollectionsPage';
+import { BestSellersPage } from './pages/BestSellersPage';
+import { AboutPage } from './pages/AboutPage';
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
@@ -98,6 +102,10 @@ function App() {
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<HomePage onAddToCart={handleAddToCart} />} />
+            <Route path="/new-arrivals" element={<NewArrivalsPage onAddToCart={handleAddToCart} />} />
+            <Route path="/collections" element={<CollectionsPage />} />
+            <Route path="/best-sellers" element={<BestSellersPage onAddToCart={handleAddToCart} />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/category/:slug" element={<CategoryPage onAddToCart={handleAddToCart} />} />
             <Route path="/product/:slug" element={<ProductPage onAddToCart={handleAddToCart} />} />
             <Route path="/shipping" element={<StaticPage />} />

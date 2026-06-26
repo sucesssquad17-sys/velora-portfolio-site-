@@ -41,10 +41,7 @@ body {
   margin: 0;
   min-width: 320px;
   overflow-x: hidden;
-  background:
-    radial-gradient(circle at top right, rgba(233, 221, 204, 0.4), transparent 40rem),
-    radial-gradient(circle at top left, rgba(139, 96, 71, 0.08), transparent 40rem),
-    linear-gradient(180deg, #fdfaf6 0%, #f7f1e8 35%, #e9ddcc 100%);
+  background-color: #FAF9F5; /* Warm off-white / Cream */
 }
 
 button,

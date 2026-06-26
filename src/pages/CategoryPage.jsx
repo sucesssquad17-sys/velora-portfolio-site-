@@ -63,7 +63,7 @@ export const CategoryPage = ({ onAddToCart }) => {
             </div>
             
             {/* Right Image */}
-            <div className="lg:col-span-6 max-h-72 overflow-hidden bg-stone-50 rounded-xs border border-stone-100">
+            <div className="lg:col-span-6 max-h-72 overflow-hidden bg-stone-50 border border-stone-100">
               <OptimizedImage 
                 src={category.heroImage} 
                 alt={category.name} 
@@ -91,7 +91,7 @@ export const CategoryPage = ({ onAddToCart }) => {
               <button
                 key={fit}
                 onClick={() => setSelectedFit(fit)}
-                className={`px-4 py-1.5 border text-xs tracking-wider uppercase font-semibold transition-colors select-none rounded-xs ${
+                className={`px-4 py-1.5 border text-xs tracking-wider uppercase font-semibold transition-colors select-none ${
                   selectedFit === fit
                     ? 'border-stone-900 bg-stone-900 text-white font-bold'
                     : 'border-stone-200 text-stone-605 bg-white hover:border-stone-400 hover:text-stone-950'

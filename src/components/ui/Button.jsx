@@ -12,11 +12,11 @@ export const Button = ({
   const baseStyle = 'inline-flex items-center justify-center text-sm font-medium transition-all duration-300 select-none focus:outline-none';
   
   const variants = {
-    primary: 'bg-stone-900 text-stone-100 hover:bg-stone-850 px-8 py-3.5 tracking-wider uppercase font-semibold text-[11px] md:text-xs',
-    secondary: 'border border-stone-300 text-stone-800 hover:bg-stone-50 px-8 py-3.5 tracking-wider uppercase font-semibold text-[11px] md:text-xs',
-    outline: 'border border-stone-900 text-stone-900 hover:bg-stone-900 hover:text-stone-100 px-6 py-2.5 text-xs',
-    white: 'bg-white text-stone-950 hover:bg-stone-100 px-8 py-3.5 tracking-wider uppercase font-semibold text-[11px] md:text-xs border border-transparent',
-    link: 'text-stone-800 underline hover:text-stone-600 p-0 hover:no-underline'
+    primary: 'bg-ink text-white hover:bg-darkink px-8 py-3.5 text-sm',
+    secondary: 'border border-stone-300 text-ink hover:bg-stone-50 px-8 py-3.5 text-sm',
+    outline: 'border border-ink text-ink hover:bg-ink hover:text-white px-6 py-2.5 text-sm',
+    white: 'bg-white text-ink hover:bg-stone-50 px-8 py-3.5 text-sm border border-transparent shadow-xs',
+    link: 'text-ink underline hover:text-stone-500 p-0 hover:no-underline text-sm'
   };
 
   return (

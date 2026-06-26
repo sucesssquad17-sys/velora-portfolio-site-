@@ -5,16 +5,16 @@ import { categories } from '../../data/categories';
 
 export const CollectionsSection = () => {
   return (
-    <section id="collections" className="bg-white py-16 md:py-24 border-b border-stone-100">
+    <section id="collections" className="bg-[#FAF9F5] py-20 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           title="The Core Rotation"
           subtitle="Collections"
-          centered
+          layout="split"
         />
         
-        {/* Categories Grid - 6 categories, responsive grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12">
+        {/* Categories Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 mt-16">
           {categories.map((category) => (
             <CategoryCard
               key={category.slug}

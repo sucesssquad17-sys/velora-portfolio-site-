@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Button } from '../ui/Button';
 import { AnimatedImageRail } from './AnimatedImageRail';
 import { OptimizedImage } from '../ui/OptimizedImage';
@@ -26,20 +27,13 @@ export const Hero = () => {
     }
   };
 
-  const scrollToSection = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <section className="relative overflow-hidden bg-cream pb-12 pt-28 sm:pt-32 sm:pb-16 lg:pt-40 lg:pb-24 border-b border-stone-100">
+    <section className="relative overflow-hidden bg-[#FAF9F5] pb-12 pt-28 sm:pt-32 sm:pb-16 lg:pt-32 lg:pb-24 border-b border-stone-200/50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-12 lg:mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-16 lg:mb-24">
           
           {/* Left Column: Narrative Copy */}
-          <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left">
+          <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left">
             <motion.div 
               variants={containerVariants}
               initial="hidden"
@@ -49,7 +43,7 @@ export const Hero = () => {
               {/* Badge */}
               <motion.span 
                 variants={itemVariants}
-                className="text-[10px] tracking-[0.3em] font-bold text-stone-400 uppercase mb-4"
+                className="text-[10px] tracking-[0.3em] font-bold text-stone-500 uppercase mb-6"
               >
                 Studio Collection 2026
               </motion.span>
@@ -57,7 +51,7 @@ export const Hero = () => {
               {/* Heading */}
               <motion.h1 
                 variants={itemVariants}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-normal tracking-tight text-stone-900 font-serif leading-[1.1]"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-[72px] font-normal tracking-tight text-ink font-display leading-[1.05]"
               >
                 Quiet design.<br className="hidden sm:inline" /> Heavyweight presence.
               </motion.h1>
@@ -65,7 +59,7 @@ export const Hero = () => {
               {/* Paragraph */}
               <motion.p 
                 variants={itemVariants}
-                className="mt-6 max-w-lg text-sm sm:text-base leading-relaxed text-stone-500 font-sans font-light"
+                className="mt-8 max-w-md text-sm sm:text-base leading-relaxed text-stone-600 font-sans font-light"
               >
                 Premium heavyweight fabrics, relaxed silhouettes, and a neutral palette. Clothing that speaks softly but carries weight.
               </motion.p>
@@ -73,66 +67,54 @@ export const Hero = () => {
               {/* CTA Buttons */}
               <motion.div 
                 variants={itemVariants}
-                className="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-4 w-full sm:w-auto"
+                className="mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-4 w-full sm:w-auto"
               >
-                <Button variant="primary" onClick={() => scrollToSection('collections')} className="w-full sm:w-auto">
-                  Explore Collections
-                </Button>
-                <Button variant="secondary" onClick={() => scrollToSection('new-arrivals')} className="w-full sm:w-auto">
-                  Shop New Drops
-                </Button>
+                <Link to="/collections" className="w-full sm:w-auto">
+                  <Button variant="primary" className="w-full">
+                    Explore Collections
+                  </Button>
+                </Link>
+                <Link to="/new-arrivals" className="w-full sm:w-auto">
+                  <Button variant="secondary" className="w-full">
+                    Shop New Drops
+                  </Button>
+                </Link>
               </motion.div>
 
               {/* Trust Row */}
               <motion.div 
                 variants={itemVariants}
-                className="mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-[10px] tracking-widest uppercase font-semibold text-stone-400 font-sans"
+                className="mt-12 flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-3 text-[10px] tracking-widest uppercase font-semibold text-stone-400 font-sans"
               >
-                <div className="flex items-center gap-1.5">
-                  <span className="h-1 w-1 rounded-full bg-stone-300" />
-                  <span>Premium Long-Staple Cotton</span>
+                <div className="flex items-center gap-2">
+                  <span className="h-px w-3 bg-stone-300" />
+                  <span>Premium Cotton</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="h-1 w-1 rounded-full bg-stone-300" />
+                <div className="flex items-center gap-2">
+                  <span className="h-px w-3 bg-stone-300" />
                   <span>Complimentary Shipping</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="h-1 w-1 rounded-full bg-stone-300" />
-                  <span>Easy 7-day Returns</span>
                 </div>
               </motion.div>
             </motion.div>
           </div>
 
           {/* Right Column: Premium Collage (Desktop Only) */}
-          <div className="hidden lg:grid lg:col-span-6 grid-cols-12 gap-4 relative pl-8">
+          <div className="hidden lg:flex lg:col-span-7 relative h-[700px] justify-end items-center">
             {/* Primary Large Image */}
-            <div className="col-span-8 relative z-10">
-              <OptimizedImage
+            <div className="absolute right-0 top-0 bottom-0 w-[80%] z-10 overflow-hidden bg-stone-100">
+              <img
                 src={railImages[0].src}
                 alt="Model styling lifestyle shot"
-                aspectRatio="aspect-[3/4]"
-                className="w-full shadow-soft rounded-xs border border-stone-200/30"
+                className="w-full h-full object-cover"
               />
             </div>
             
-            {/* Secondary Overlapping Stacked Image 1 */}
-            <div className="col-span-4 self-end mb-[15%] relative z-20 -ml-10">
-              <OptimizedImage
+            {/* Secondary Overlapping Image */}
+            <div className="absolute left-0 bottom-[10%] w-[45%] z-20 overflow-hidden bg-stone-100">
+              <img
                 src={railImages[1].src}
                 alt="Sweater textures"
-                aspectRatio="aspect-[4/5]"
-                className="w-full shadow-product border border-white rounded-xs"
-              />
-            </div>
-
-            {/* Tertiary Stacked Image 2 */}
-            <div className="absolute right-[12%] top-[5%] w-[28%] shadow-soft border border-white rounded-xs bg-stone-50 overflow-hidden z-20">
-              <OptimizedImage
-                src={railImages[2].src}
-                alt="Fabric detail"
-                aspectRatio="aspect-[1/1]"
-                className="w-full"
+                className="w-full h-auto aspect-[3/4] object-cover"
               />
             </div>
           </div>
