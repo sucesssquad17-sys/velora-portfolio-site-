@@ -672,5 +672,341 @@ export const products = [
       'https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=800&q=80',
       'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&q=80'
     ]
+  },
+  {
+    id: 25,
+    name: 'Heavyweight Zip-Up Sweatshirt',
+    slug: 'heavyweight-zip-up-sweatshirt',
+    categorySlug: 'hoodies',
+    price: 2399,
+    tag: 'Trending',
+    isFeatured: true,
+    isBestSeller: true,
+    fit: 'Oversized',
+    description: 'A classic full-zip silhouette crafted from premium French terry. Designed for layering, featuring a brushed interior and a robust double-slider zipper.',
+    features: [
+      '420 GSM Organic French Terry',
+      'Silver-tone two-way zipper',
+      'Split kangaroo pocket',
+      'Ribbed side panels for mobility'
+    ],
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: [
+      { name: 'Heather Grey', code: '#B0B0B0' },
+      { name: 'Navy Blue', code: '#1A2942' }
+    ],
+    image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80'
+    ]
+  },
+  {
+    id: 26,
+    name: 'Vintage Wash Crewneck',
+    slug: 'vintage-wash-crewneck',
+    categorySlug: 'hoodies',
+    price: 1799,
+    tag: 'Studio Pick',
+    isFeatured: false,
+    isBestSeller: false,
+    fit: 'Relaxed',
+    description: 'A premium crewneck sweatshirt treated with a specialized garment wash for an authentic, sun-faded vintage finish. Exceptionally soft and worn-in from day one.',
+    features: [
+      '380 GSM Cotton Blend',
+      'Enzyme washed for soft drape',
+      'Dropped shoulder seams',
+      'Tonal coverstitch details'
+    ],
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: [
+      { name: 'Faded Brick', code: '#8A4F4A' },
+      { name: 'Washed Charcoal', code: '#424242' }
+    ],
+    image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=800&q=80'
+    ]
+  },
+  {
+    id: 27,
+    name: 'Checked Wool Overshirt',
+    slug: 'checked-wool-overshirt',
+    categorySlug: 'overshirts',
+    price: 3199,
+    tag: 'New',
+    isFeatured: true,
+    isBestSeller: false,
+    fit: 'Structured',
+    description: 'A heavy wool-blend overshirt in a subtle tonal check. Designed to be worn as a mid-layer or light jacket, featuring a structured collar and minimal hardware.',
+    features: [
+      'Heavyweight Wool-Blend Twill',
+      'Tonal check pattern',
+      'Concealed placket',
+      'Curved hem'
+    ],
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: [
+      { name: 'Mocha Check', code: '#5C4A3D' },
+      { name: 'Grey Check', code: '#7A7A7A' }
+    ],
+    image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=600&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=800&q=80'
+    ]
+  },
+  {
+    id: 28,
+    name: 'Heavy Suede Chore Jacket',
+    slug: 'heavy-suede-chore-jacket',
+    categorySlug: 'overshirts',
+    price: 4299,
+    tag: 'Limited',
+    isFeatured: false,
+    isBestSeller: true,
+    fit: 'Relaxed',
+    description: 'An elevated take on the classic chore coat. Constructed from premium faux suede that mimics the rich texture and heavy drape of genuine leather, without the bulk.',
+    features: [
+      'Premium Vegan Suede',
+      'Triple patch pockets',
+      'Unlined for natural drape',
+      'Corozo nut buttons'
+    ],
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: [
+      { name: 'Tobacco Brown', code: '#7B5E43' },
+      { name: 'Deep Olive', code: '#3E453A' }
+    ],
+    image: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=600&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80'
+    ]
+  },
+  {
+    id: 29,
+    name: 'Mock Neck Heavy Tee',
+    slug: 'mock-neck-heavy-tee',
+    categorySlug: 't-shirts',
+    price: 1499,
+    tag: 'Trending',
+    isFeatured: true,
+    isBestSeller: false,
+    fit: 'Structured',
+    description: 'A structural, heavyweight tee with an elevated mock neck collar. Provides a sophisticated silhouette that transitions effortlessly from day to evening.',
+    features: [
+      '300 GSM Heavyweight Cotton',
+      'High rib mock neckline',
+      'Boxy, cropped fit',
+      'Side split hem'
+    ],
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: [
+      { name: 'Bone White', code: '#E8E6E1' },
+      { name: 'Onyx', code: '#1A1A1A' }
+    ],
+    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=800&q=80'
+    ]
+  },
+  {
+    id: 30,
+    name: 'Long Sleeve Ribbed Tee',
+    slug: 'long-sleeve-ribbed-tee',
+    categorySlug: 't-shirts',
+    price: 1299,
+    tag: null,
+    isFeatured: false,
+    isBestSeller: true,
+    fit: 'Regular',
+    description: 'A versatile layering piece crafted from a fine ribbed cotton blend. Offers a comfortable stretch and a close-to-body fit for seamless layering.',
+    features: [
+      '2x2 Ribbed Cotton Blend',
+      'Form-fitting stretch',
+      'Bound crew neckline',
+      'Extended sleeve length'
+    ],
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: [
+      { name: 'Sand', code: '#D9C7B6' },
+      { name: 'Faded Black', code: '#2D2D2D' }
+    ],
+    image: 'https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=600&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80'
+    ]
+  },
+  {
+    id: 31,
+    name: 'Relaxed Cotton Canvas Pants',
+    slug: 'relaxed-cotton-canvas-pants',
+    categorySlug: 'trousers',
+    price: 2499,
+    tag: 'New',
+    isFeatured: true,
+    isBestSeller: false,
+    fit: 'Oversized',
+    description: 'Utility-inspired trousers cut from durable cotton canvas. Featuring a wide, relaxed leg and articulated knee seams for enhanced movement and a structural shape.',
+    features: [
+      'Heavyweight Cotton Canvas',
+      'Articulated knee seams',
+      'Deep fatigue-style front pockets',
+      'Adjustable button waist tabs'
+    ],
+    sizes: ['30', '32', '34', '36'],
+    colors: [
+      { name: 'Clay', code: '#C4B29E' },
+      { name: 'Navy', code: '#1A2942' }
+    ],
+    image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=800&q=80'
+    ]
+  },
+  {
+    id: 32,
+    name: 'Drawstring Linen Trousers',
+    slug: 'drawstring-linen-trousers',
+    categorySlug: 'trousers',
+    price: 2299,
+    tag: 'Studio Pick',
+    isFeatured: false,
+    isBestSeller: true,
+    fit: 'Relaxed',
+    description: 'Breathable and effortless. These linen-blend trousers offer a relaxed flowy drape with a comfortable elasticated drawstring waist, perfect for warmer climates.',
+    features: [
+      'Premium Linen-Cotton Blend',
+      'Elastic waist with interior drawstring',
+      'Single back patch pocket',
+      'Slightly tapered hem'
+    ],
+    sizes: ['30', '32', '34', '36'],
+    colors: [
+      { name: 'Natural', code: '#E2D3C1' },
+      { name: 'Charcoal', code: '#3D3D3C' }
+    ],
+    image: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=600&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=80'
+    ]
+  },
+  {
+    id: 33,
+    name: 'Everyday Nylon Pouch',
+    slug: 'everyday-nylon-pouch',
+    categorySlug: 'accessories',
+    price: 899,
+    tag: 'Essentials',
+    isFeatured: true,
+    isBestSeller: true,
+    fit: 'Regular',
+    description: 'A minimal, water-resistant nylon pouch designed to carry daily essentials. Features a matte waterproof zipper and a detachable paracord wrist strap.',
+    features: [
+      'High-density Water-resistant Nylon',
+      'Matte waterproof YKK zipper',
+      'Detachable paracord strap',
+      'Internal mesh divider'
+    ],
+    sizes: ['One Size'],
+    colors: [
+      { name: 'Black', code: '#1A1A1A' },
+      { name: 'Olive', code: '#4D5D4E' }
+    ],
+    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=800&q=80'
+    ]
+  },
+  {
+    id: 34,
+    name: 'Braided Leather Belt',
+    slug: 'braided-leather-belt',
+    categorySlug: 'accessories',
+    price: 1199,
+    tag: null,
+    isFeatured: false,
+    isBestSeller: false,
+    fit: 'Regular',
+    description: 'A classic braided belt crafted from vegetable-tanned leather. Offers micro-adjustability and features a brushed silver-tone buckle for a refined finish.',
+    features: [
+      '100% Vegetable-tanned Leather',
+      'Intricate braided construction',
+      'Brushed silver-tone brass buckle',
+      'Infinite adjustability'
+    ],
+    sizes: ['M', 'L'],
+    colors: [
+      { name: 'Dark Brown', code: '#4E3E33' },
+      { name: 'Black', code: '#1A1A1A' }
+    ],
+    image: 'https://images.unsplash.com/photo-1627124124068-fe4430bb09def?auto=format&fit=crop&w=600&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1627124124068-fe4430bb09def?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=800&q=80'
+    ]
+  },
+  {
+    id: 35,
+    name: 'Lightweight Shell Jacket',
+    slug: 'lightweight-shell-jacket',
+    categorySlug: 'outerwear',
+    price: 3699,
+    tag: 'Trending',
+    isFeatured: true,
+    isBestSeller: false,
+    fit: 'Structured',
+    description: 'A highly functional, unlined shell jacket. Constructed from a breathable, water-repellent technical fabric, perfect for unpredictable weather transitional layering.',
+    features: [
+      'Water-repellent technical shell',
+      'Adjustable toggle hood',
+      'Taped internal seams',
+      'Hidden zip pockets'
+    ],
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: [
+      { name: 'Slate Grey', code: '#5C636B' },
+      { name: 'Midnight', code: '#111827' }
+    ],
+    image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=80'
+    ]
+  },
+  {
+    id: 36,
+    name: 'Classic Bomber Jacket',
+    slug: 'classic-bomber-jacket',
+    categorySlug: 'outerwear',
+    price: 4599,
+    tag: 'Premium',
+    isFeatured: true,
+    isBestSeller: true,
+    fit: 'Relaxed',
+    description: 'A timeless bomber silhouette reimagined with a luxurious matte satin finish and substantial rib-knit trims. Features a contrasting orange interior lining.',
+    features: [
+      'Matte satin nylon flight fabric',
+      'Heavy-duty rib knit collar, cuffs, and hem',
+      'Utility sleeve pocket',
+      'Contrast rescue-orange lining'
+    ],
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: [
+      { name: 'Sage Green', code: '#788276' },
+      { name: 'Black', code: '#1A1A1A' }
+    ],
+    image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=600&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80'
+    ]
   }
 ];
