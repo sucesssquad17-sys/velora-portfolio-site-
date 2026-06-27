@@ -1,64 +1,64 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export const FeaturedDrop = () => {
-  return (
-    <section className="bg-ink text-paper">
-      <div className="max-w-screen-xl mx-auto grid grid-cols-1 lg:grid-cols-2 min-h-[80vh]">
-
-        {/* Image */}
-        <div className="relative overflow-hidden min-h-[50vh] lg:min-h-0 order-1">
-          <img
-            src="https://images.unsplash.com/photo-1523398002811-999aa8073ac9?auto=format&fit=crop&w=1200&q=85"
-            alt="Featured outerwear piece"
-            className="absolute inset-0 w-full h-full object-cover img-zoom"
-          />
-          {/* Subtle tint */}
-          <div className="absolute inset-0 bg-ink/20" />
-          {/* Corner label */}
-          <div className="absolute top-6 left-6">
-            <span className="text-[9px] tracking-superwide uppercase text-paper/70 font-medium border border-paper/30 px-3 py-1.5">
-              Drop 01 — SS26
-            </span>
-          </div>
-        </div>
-
-        {/* Copy */}
-        <div className="flex flex-col justify-center px-8 lg:px-16 py-16 lg:py-20 order-2">
-          <p className="text-2xs tracking-superwide text-paper/50 uppercase font-medium mb-6">Featured Piece</p>
-          <h2 className="font-display font-light text-paper text-5xl md:text-6xl lg:text-[68px] leading-[0.95] mb-6">
-            The Utility<br />
-            <em className="italic">Overshirt.</em>
-          </h2>
-          <p className="text-sm text-paper/60 font-light leading-[1.8] mb-10 max-w-sm">
-            Constructed from a dense, water-repellent Italian cotton blend with exaggerated utility pockets and a relaxed drape. Built for every environment.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Link
-              to="/product/heavyweight-utility-overshirt-charcoal"
-              className="inline-flex items-center justify-center px-8 py-3.5 bg-paper text-ink text-[11px] font-medium tracking-widest uppercase hover:bg-stone-100 transition-colors duration-300"
-            >
-              Shop the Piece
-            </Link>
-            <Link
-              to="/category/overshirts"
-              className="inline-flex items-center justify-center px-8 py-3.5 border border-paper/30 text-paper text-[11px] font-medium tracking-widest uppercase hover:border-paper/60 transition-colors duration-300"
-            >
-              View Overshirts
-            </Link>
-          </div>
-
-          {/* Material callouts */}
-          <div className="flex gap-8 mt-12 pt-8 border-t border-paper/10">
-            {['Italian Cotton', 'Water-Repellent', 'Structured Fit'].map(label => (
-              <div key={label}>
-                <p className="text-2xs text-paper/40 tracking-widest uppercase font-medium">{label}</p>
-              </div>
-            ))}
-          </div>
+export const FeaturedDrop = () => (
+  <section style={{ background: '#0F0E0C' }}>
+    <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '80vh' }}
+      className="block" id="featured-grid">
+      
+      {/* Image */}
+      <div style={{ position: 'relative', overflow: 'hidden', background: '#1a1a1a', minHeight: 480 }} className="img-hover">
+        <img
+          src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=1200&q=85&fit=crop"
+          alt="Featured overshirt"
+          className="img-inner"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }}
+        />
+        <div style={{ position: 'absolute', top: '1.5rem', left: '1.5rem',
+          border: '1px solid rgba(255,255,255,0.2)', padding: '8px 14px' }}>
+          <span className="label" style={{ color: 'rgba(255,255,255,0.6)' }}>Drop 01 — SS26</span>
         </div>
       </div>
-    </section>
-  );
-};
+
+      {/* Copy */}
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center',
+        padding: 'clamp(2.5rem, 5vw, 5rem)' }}>
+        <p className="label" style={{ color: 'rgba(255,255,255,0.4)', marginBottom: '1.5rem' }}>Featured Piece</p>
+        <h2 className="font-display" style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 300,
+          color: '#fff', lineHeight: 0.95, marginBottom: '1.5rem' }}>
+          The Utility<br/><em style={{ fontStyle: 'italic' }}>Overshirt.</em>
+        </h2>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', fontWeight: 300,
+          lineHeight: 1.85, marginBottom: '2.5rem', maxWidth: 360 }}>
+          Constructed from a dense, water-repellent Italian cotton blend with exaggerated utility pockets and a relaxed drape. Built for every environment.
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '3rem' }}>
+          <Link to="/category/overshirts"
+            style={{ display: 'inline-flex', alignItems: 'center', padding: '0.875rem 2rem',
+              background: '#F9F7F4', color: '#0F0E0C', textDecoration: 'none',
+              fontSize: 10, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+            Shop Overshirts
+          </Link>
+          <Link to="/collections"
+            style={{ display: 'inline-flex', alignItems: 'center', padding: '0.875rem 2rem',
+              background: 'transparent', color: '#fff', textDecoration: 'none',
+              fontSize: 10, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase',
+              border: '1px solid rgba(255,255,255,0.25)' }}>
+            View All
+          </Link>
+        </div>
+        <div style={{ display: 'flex', gap: '2rem', paddingTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+          {['Italian Cotton', 'Water-Repellent', 'Structured Fit'].map(l => (
+            <p key={l} className="label" style={{ color: 'rgba(255,255,255,0.3)' }}>{l}</p>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <style>{`
+      @media (max-width: 768px) {
+        #featured-grid { grid-template-columns: 1fr !important; }
+      }
+    `}</style>
+  </section>
+);

@@ -1,263 +1,207 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, ShoppingBag, X, Menu } from 'lucide-react';
 import { products } from '../../data/products';
 import { formatPrice } from '../../utils/formatPrice';
 
 export const Header = ({ cartCount, onCartOpen }) => {
-  const [menuOpen, setMenuOpen]   = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-  const [scrolled, setScrolled] = useState(false);
-
-  const searchInputRef = useRef(null);
-  const navigate = useNavigate();
+  const [menuOpen,    setMenuOpen]    = useState(false);
+  const [searchOpen,  setSearchOpen]  = useState(false);
+  const [query,       setQuery]       = useState('');
+  const [results,     setResults]     = useState([]);
+  const [scrolled,    setScrolled]    = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  // Close menu on route change
   useEffect(() => { setMenuOpen(false); setSearchOpen(false); }, [location]);
-
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 32);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    const fn = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', fn, { passive: true });
+    return () => window.removeEventListener('scroll', fn);
   }, []);
-
   useEffect(() => {
-    const onKey = (e) => e.key === 'Escape' && (setSearchOpen(false), setMenuOpen(false));
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    const fn = (e) => e.key === 'Escape' && (setSearchOpen(false), setMenuOpen(false));
+    window.addEventListener('keydown', fn);
+    return () => window.removeEventListener('keydown', fn);
   }, []);
-
   useEffect(() => {
-    if (searchOpen) setTimeout(() => searchInputRef.current?.focus(), 80);
-  }, [searchOpen]);
-
-  useEffect(() => {
-    if (!searchQuery.trim()) { setSearchResults([]); return; }
-    const q = searchQuery.toLowerCase();
-    setSearchResults(
-      products.filter(p =>
-        p.name.toLowerCase().includes(q) ||
-        p.categorySlug.toLowerCase().includes(q) ||
-        p.fit?.toLowerCase().includes(q)
-      ).slice(0, 12)
-    );
-  }, [searchQuery]);
-
-  const handleResultClick = (slug) => {
-    setSearchOpen(false);
-    setSearchQuery('');
-    navigate(`/product/${slug}`);
-  };
+    if (!query.trim()) { setResults([]); return; }
+    const q = query.toLowerCase();
+    setResults(products.filter(p =>
+      p.name.toLowerCase().includes(q) || p.categorySlug.includes(q)
+    ).slice(0, 10));
+  }, [query]);
 
   const navLinks = [
     { label: 'New Arrivals', to: '/new-arrivals' },
-    { label: 'Collections', to: '/collections' },
-    { label: 'Best Sellers', to: '/best-sellers' },
-    { label: 'About', to: '/about' },
+    { label: 'Collections',  to: '/collections'  },
+    { label: 'Best Sellers', to: '/best-sellers'  },
+    { label: 'About',        to: '/about'         },
   ];
+
+  const isHome = location.pathname === '/';
 
   return (
     <>
-      {/* ── Main Header ── */}
+      {/* HEADER */}
       <header
-        className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 ${
-          scrolled
-            ? 'bg-[#F9F7F4]/95 backdrop-blur-sm border-b border-stone-200/70 shadow-[0_1px_0_rgba(15,14,12,0.04)]'
-            : 'bg-transparent border-b border-transparent'
-        }`}
+        style={{
+          position: 'fixed', inset: '0 0 auto 0', zIndex: 40,
+          transition: 'background 0.4s, border-color 0.4s',
+          background: scrolled ? 'rgba(249,247,244,0.95)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(8px)' : 'none',
+          borderBottom: scrolled ? '1px solid #E5E2DC' : '1px solid transparent',
+        }}
       >
-        <div className="mx-auto flex h-[72px] max-w-screen-xl items-center justify-between px-6 lg:px-10">
+        <div style={{ maxWidth: 1280, margin: '0 auto', height: 72,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '0 2.5rem' }}>
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 shrink-0">
-            <span className="text-[11px] font-semibold tracking-[0.35em] text-ink uppercase select-none">
-              VELORA
-            </span>
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <span style={{
+              fontFamily: 'Inter, sans-serif', fontSize: 11, fontWeight: 600,
+              letterSpacing: '0.35em', color: scrolled || !isHome ? '#0F0E0C' : '#fff',
+              transition: 'color 0.4s',
+            }}>VELORA</span>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-10">
+          {/* Desktop nav */}
+          <nav style={{ display: 'flex', gap: '2.5rem' }} className="hidden lg:flex">
             {navLinks.map(({ label, to }) => (
-              <Link
-                key={to}
-                to={to}
-                className={`text-[11px] tracking-widest font-medium uppercase transition-colors duration-200 link-underline ${
-                  location.pathname === to
-                    ? 'text-ink'
-                    : 'text-stone-500 hover:text-ink'
-                }`}
-              >
-                {label}
-              </Link>
+              <Link key={to} to={to} className="link-line" style={{
+                fontFamily: 'Inter, sans-serif', fontSize: 10, fontWeight: 500,
+                letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none',
+                color: scrolled || !isHome ? (location.pathname===to ? '#0F0E0C' : '#9A9590') : 'rgba(255,255,255,0.8)',
+                transition: 'color 0.3s',
+              }}>{label}</Link>
             ))}
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="p-2.5 text-stone-600 hover:text-ink transition-colors"
-              aria-label="Search"
-            >
-              <Search size={18} strokeWidth={1.5} />
-            </button>
-
-            <button
-              onClick={onCartOpen}
-              className="relative p-2.5 text-stone-600 hover:text-ink transition-colors"
-              aria-label="Cart"
-            >
-              <ShoppingBag size={18} strokeWidth={1.5} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            {[
+              { icon: <Search size={18} strokeWidth={1.5}/>, fn: () => setSearchOpen(true), label: 'Search' },
+            ].map(({ icon, fn, label }) => (
+              <button key={label} onClick={fn} aria-label={label}
+                style={{ padding: '10px', background: 'none', border: 'none', cursor: 'pointer',
+                  color: scrolled || !isHome ? '#0F0E0C' : '#fff', transition: 'color 0.3s' }}>
+                {icon}
+              </button>
+            ))}
+            <button onClick={onCartOpen} aria-label="Cart"
+              style={{ padding: '10px', background: 'none', border: 'none', cursor: 'pointer',
+                color: scrolled || !isHome ? '#0F0E0C' : '#fff', transition: 'color 0.3s', position: 'relative' }}>
+              <ShoppingBag size={18} strokeWidth={1.5}/>
               {cartCount > 0 && (
-                <span className="absolute top-1.5 right-1.5 flex h-[14px] w-[14px] items-center justify-center rounded-full bg-ink text-[8px] font-semibold text-paper">
+                <span style={{ position: 'absolute', top: 6, right: 6, background: '#0F0E0C',
+                  color: '#F9F7F4', borderRadius: '50%', width: 14, height: 14, fontSize: 8,
+                  fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {cartCount}
                 </span>
               )}
             </button>
-
-            {/* Mobile menu */}
-            <button
-              onClick={() => setMenuOpen(v => !v)}
-              className="p-2.5 text-stone-600 hover:text-ink transition-colors lg:hidden"
-              aria-label="Menu"
-            >
-              {menuOpen ? <X size={18} strokeWidth={1.5} /> : <Menu size={18} strokeWidth={1.5} />}
+            <button onClick={() => setMenuOpen(v => !v)} aria-label="Menu"
+              className="lg:hidden"
+              style={{ padding: '10px', background: 'none', border: 'none', cursor: 'pointer',
+                color: scrolled || !isHome ? '#0F0E0C' : '#fff', transition: 'color 0.3s' }}>
+              {menuOpen ? <X size={18} strokeWidth={1.5}/> : <Menu size={18} strokeWidth={1.5}/>}
             </button>
           </div>
         </div>
       </header>
 
-      {/* ── Mobile Drawer ── */}
-      <div
-        className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-400 ${
-          menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        <div
-          className="absolute inset-0 bg-ink/30 backdrop-blur-[2px]"
-          onClick={() => setMenuOpen(false)}
-        />
-        <div
-          className={`absolute right-0 inset-y-0 w-[280px] bg-paper flex flex-col transition-transform duration-400 ease-[cubic-bezier(0.215,0.61,0.355,1)] ${
-            menuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
-        >
-          <div className="flex items-center justify-between px-6 h-[72px] border-b border-stone-200/60">
-            <span className="text-[10px] tracking-superwide font-medium text-muted uppercase">Menu</span>
-            <button onClick={() => setMenuOpen(false)} className="text-muted hover:text-ink transition-colors p-1">
-              <X size={17} strokeWidth={1.5} />
-            </button>
-          </div>
-
-          <nav className="flex flex-col px-6 pt-8 gap-1">
-            {navLinks.map(({ label, to }) => (
-              <Link
-                key={to}
-                to={to}
-                className="py-3.5 text-sm font-medium text-stone-700 hover:text-ink border-b border-stone-100 transition-colors"
-              >
-                {label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="mt-auto px-6 pb-10 pt-6 border-t border-stone-100">
-            <p className="text-[10px] tracking-widest uppercase text-muted font-medium mb-1">VELORA Studio</p>
-            <p className="text-xs text-stone-500">hello@velorastudio.com</p>
+      {/* MOBILE DRAWER */}
+      {menuOpen && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 50 }}>
+          <div onClick={() => setMenuOpen(false)}
+            style={{ position: 'absolute', inset: 0, background: 'rgba(15,14,12,0.3)', backdropFilter: 'blur(2px)' }}/>
+          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 280,
+            background: '#F9F7F4', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '0 1.5rem', height: 72, borderBottom: '1px solid #E5E2DC' }}>
+              <span className="label">Navigation</span>
+              <button onClick={() => setMenuOpen(false)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9A9590' }}>
+                <X size={17} strokeWidth={1.5}/>
+              </button>
+            </div>
+            <nav style={{ padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', gap: 0 }}>
+              {navLinks.map(({ label, to }) => (
+                <Link key={to} to={to} style={{ padding: '1rem 0', textDecoration: 'none',
+                  fontSize: 14, fontWeight: 500, color: '#0F0E0C',
+                  borderBottom: '1px solid #F0EEEB' }}>
+                  {label}
+                </Link>
+              ))}
+            </nav>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* ── Search Overlay ── */}
+      {/* SEARCH OVERLAY */}
       {searchOpen && (
-        <div className="fixed inset-0 z-50 bg-paper/98 backdrop-blur-xl flex flex-col">
-          {/* Header row */}
-          <div className="flex items-center justify-between px-6 lg:px-10 h-[72px] border-b border-stone-200/50 shrink-0">
-            <span className="text-[10px] tracking-superwide font-medium text-muted uppercase">Search</span>
-            <button
-              onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
-              className="text-muted hover:text-ink transition-colors p-1"
-            >
-              <X size={20} strokeWidth={1.5} />
+        <div style={{ position: 'fixed', inset: 0, zIndex: 50,
+          background: 'rgba(249,247,244,0.98)', backdropFilter: 'blur(12px)',
+          display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '0 2.5rem', height: 72, borderBottom: '1px solid #E5E2DC', flexShrink: 0 }}>
+            <span className="label">Search</span>
+            <button onClick={() => { setSearchOpen(false); setQuery(''); }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9A9590' }}>
+              <X size={20} strokeWidth={1.5}/>
             </button>
           </div>
-
-          {/* Search input */}
-          <div className="px-6 lg:px-16 pt-12 pb-8 max-w-4xl mx-auto w-full">
-            <div className="relative">
-              <input
-                ref={searchInputRef}
-                type="text"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search products…"
-                className="w-full bg-transparent border-0 border-b-2 border-stone-200 focus:border-ink text-4xl md:text-5xl lg:text-6xl font-display font-light text-ink placeholder-stone-300 py-4 focus:outline-none transition-colors duration-300"
-              />
-            </div>
+          <div style={{ maxWidth: 800, margin: '0 auto', width: '100%', padding: '3rem 2.5rem 1.5rem' }}>
+            <input
+              autoFocus
+              type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="Search products…"
+              style={{
+                width: '100%', background: 'none', border: 'none',
+                borderBottom: '2px solid #E5E2DC', outline: 'none',
+                fontFamily: 'Cormorant Garamond, Georgia, serif',
+                fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 300,
+                color: '#0F0E0C', padding: '0.5rem 0', lineHeight: 1.2,
+              }}
+            />
           </div>
-
-          {/* Results area */}
-          <div className="flex-1 overflow-y-auto px-6 lg:px-16 max-w-4xl mx-auto w-full pb-16">
-            {searchQuery && (
-              <>
-                <p className="text-2xs text-muted tracking-superwide uppercase mb-6">
-                  {searchResults.length} result{searchResults.length !== 1 ? 's' : ''}
-                </p>
-                {searchResults.length > 0 ? (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-                    {searchResults.map(p => (
-                      <button
-                        key={p.id}
-                        onClick={() => handleResultClick(p.slug)}
-                        className="group text-left"
-                      >
-                        <div className="aspect-[3/4] bg-stone-100 overflow-hidden mb-3">
-                          <img src={p.image} alt={p.name} className="w-full h-full object-cover img-zoom" />
-                        </div>
-                        <p className="text-xs font-medium text-ink group-hover:underline leading-snug">{p.name}</p>
-                        <p className="text-xs text-muted mt-0.5">{formatPrice(p.price)}</p>
-                      </button>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted font-light">No results for "{searchQuery}"</p>
-                )}
-              </>
+          <div style={{ flex: 1, overflow: 'auto', padding: '1.5rem 2.5rem',
+            maxWidth: 800, margin: '0 auto', width: '100%' }}>
+            {query && results.length === 0 && (
+              <p style={{ fontSize: 13, color: '#9A9590', fontWeight: 300 }}>No results for "{query}"</p>
             )}
-
-            {!searchQuery && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-                <div>
-                  <p className="text-2xs tracking-superwide text-muted uppercase font-medium mb-6">Categories</p>
-                  <div className="flex flex-col gap-0">
-                    {['Hoodies', 'Overshirts', 'T-Shirts', 'Trousers', 'Outerwear', 'Accessories'].map(cat => (
-                      <button
-                        key={cat}
-                        onClick={() => setSearchQuery(cat)}
-                        className="text-left py-3.5 border-b border-stone-100 text-xl md:text-2xl font-display font-light text-stone-600 hover:text-ink transition-colors duration-200 group flex justify-between items-center"
-                      >
-                        {cat}
-                        <span className="text-sm opacity-0 group-hover:opacity-100 transition-opacity">→</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <p className="text-2xs tracking-superwide text-muted uppercase font-medium mb-6">Trending</p>
-                  <div className="grid grid-cols-2 gap-4">
-                    {products.filter(p => p.isFeatured).slice(0, 2).map(p => (
-                      <button key={p.id} onClick={() => handleResultClick(p.slug)} className="group text-left">
-                        <div className="aspect-[3/4] bg-stone-100 overflow-hidden mb-3">
-                          <img src={p.image} alt={p.name} className="w-full h-full object-cover img-zoom" />
-                        </div>
-                        <p className="text-xs font-medium text-ink group-hover:underline truncate">{p.name}</p>
-                        <p className="text-xs text-muted mt-0.5">{formatPrice(p.price)}</p>
-                      </button>
-                    ))}
-                  </div>
+            {results.length > 0 && (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '1.5rem' }}>
+                {results.map(p => (
+                  <button key={p.id} onClick={() => { navigate(`/product/${p.slug}`); setSearchOpen(false); setQuery(''); }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}>
+                    <div style={{ aspectRatio: '3/4', background: '#EDEAE6', overflow: 'hidden', marginBottom: '0.75rem' }} className="img-hover">
+                      <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} className="img-inner"/>
+                    </div>
+                    <p style={{ fontSize: 12, fontWeight: 500, color: '#0F0E0C', marginBottom: 2 }}>{p.name}</p>
+                    <p style={{ fontSize: 12, color: '#9A9590' }}>{formatPrice(p.price)}</p>
+                  </button>
+                ))}
+              </div>
+            )}
+            {!query && (
+              <div>
+                <p className="label" style={{ marginBottom: '1.5rem' }}>Categories</p>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  {['Hoodies','Overshirts','T-Shirts','Trousers','Outerwear','Accessories'].map(c => (
+                    <button key={c} onClick={() => setQuery(c)}
+                      style={{ background: 'none', border: 'none', borderBottom: '1px solid #F0EEEB',
+                        cursor: 'pointer', textAlign: 'left', padding: '1rem 0',
+                        fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: 28,
+                        fontWeight: 300, color: '#9A9590', transition: 'color 0.2s' }}
+                      onMouseEnter={e => e.target.style.color='#0F0E0C'}
+                      onMouseLeave={e => e.target.style.color='#9A9590'}>
+                      {c}
+                    </button>
+                  ))}
                 </div>
               </div>
             )}

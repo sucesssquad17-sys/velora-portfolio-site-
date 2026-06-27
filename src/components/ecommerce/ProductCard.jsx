@@ -1,99 +1,92 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, ShoppingBag } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { formatPrice } from '../../utils/formatPrice';
 
 export const ProductCard = ({ product, onAddToCart }) => {
   const [hovered, setHovered] = useState(false);
+  const alt = product.gallery?.[1] || product.gallery?.[0] || product.image;
 
   const quickAdd = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault(); e.stopPropagation();
     onAddToCart({
-      id: product.id,
-      name: product.name,
-      slug: product.slug,
-      price: product.price,
-      image: product.image,
+      id: product.id, name: product.name, slug: product.slug,
+      price: product.price, image: product.image,
       color: product.colors?.[0] || { name: 'Default', code: '#000' },
-      size: product.sizes?.[0] || 'M',
-      quantity: 1,
+      size: product.sizes?.[0] || 'M', quantity: 1,
     });
   };
 
-  const altImage = product.gallery?.[1] || product.gallery?.[0] || product.image;
-
   return (
-    <Link
-      to={`/product/${product.slug}`}
-      className="group block"
+    <Link to={`/product/${product.slug}`} style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {/* Image */}
-      <div className="relative aspect-[3/4] bg-stone-100 overflow-hidden">
-        {/* Primary image */}
-        <img
-          src={product.image}
-          alt={product.name}
-          loading="lazy"
-          className={`absolute inset-0 w-full h-full object-cover img-zoom transition-opacity duration-700 ${hovered ? 'opacity-0' : 'opacity-100'}`}
-        />
-        {/* Alt image on hover */}
-        <img
-          src={altImage}
-          alt={product.name}
-          loading="lazy"
-          className={`absolute inset-0 w-full h-full object-cover img-zoom transition-opacity duration-700 ${hovered ? 'opacity-100' : 'opacity-0'}`}
-        />
+      onMouseLeave={() => setHovered(false)}>
 
-        {/* Tag */}
+      {/* Image */}
+      <div style={{ position: 'relative', aspectRatio: '3/4', background: '#EDEAE6', overflow: 'hidden' }}>
+        <img src={product.image} alt={product.name} loading="lazy"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
+            transition: 'opacity 0.7s, transform 0.9s cubic-bezier(0.215,0.61,0.355,1)',
+            opacity: hovered ? 0 : 1, transform: hovered ? 'scale(1.04)' : 'scale(1)' }}/>
+        <img src={alt} alt={product.name} loading="lazy"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
+            transition: 'opacity 0.7s, transform 0.9s cubic-bezier(0.215,0.61,0.355,1)',
+            opacity: hovered ? 1 : 0, transform: hovered ? 'scale(1.04)' : 'scale(1)' }}/>
+
         {product.tag && (
-          <span className="absolute top-3 left-3 text-[9px] tracking-widest font-medium uppercase bg-paper text-ink px-2 py-1 z-10">
+          <span style={{ position: 'absolute', top: 12, left: 12, background: '#F9F7F4',
+            fontSize: 9, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase',
+            color: '#0F0E0C', padding: '4px 8px', zIndex: 1 }}>
             {product.tag}
           </span>
         )}
 
-        {/* Quick add — desktop slide-up */}
-        <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-premium z-20 hidden lg:block">
-          <button
-            onClick={quickAdd}
-            className="w-full flex items-center justify-center gap-2 bg-ink text-paper py-3.5 text-[10px] tracking-widest uppercase font-medium hover:bg-stone-800 transition-colors"
-          >
-            <Plus size={12} strokeWidth={2} />
-            Quick Add
+        {/* Quick add — desktop */}
+        <div style={{ position: 'absolute', inset: '0 0 0 0', display: 'flex', alignItems: 'flex-end',
+          transition: 'opacity 0.3s', opacity: hovered ? 1 : 0, zIndex: 2 }} className="hidden lg:flex">
+          <button onClick={quickAdd}
+            style={{ width: '100%', background: '#0F0E0C', color: '#F9F7F4', border: 'none',
+              cursor: 'pointer', padding: '14px', fontSize: 9, fontWeight: 600,
+              letterSpacing: '0.2em', textTransform: 'uppercase',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+              transform: hovered ? 'translateY(0)' : 'translateY(100%)',
+              transition: 'transform 0.3s cubic-bezier(0.215,0.61,0.355,1)' }}>
+            <Plus size={11} strokeWidth={2}/> Quick Add
           </button>
         </div>
 
-        {/* Quick add — mobile round button */}
-        <button
-          onClick={quickAdd}
-          className="lg:hidden absolute bottom-2.5 right-2.5 h-9 w-9 rounded-full bg-paper/90 backdrop-blur-sm text-ink flex items-center justify-center z-20 shadow-card"
-        >
-          <Plus size={14} strokeWidth={2} />
+        {/* Mobile */}
+        <button onClick={quickAdd} className="lg:hidden"
+          style={{ position: 'absolute', bottom: 10, right: 10, width: 34, height: 34,
+            borderRadius: '50%', background: 'rgba(249,247,244,0.92)', border: 'none',
+            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.12)', zIndex: 2 }}>
+          <Plus size={14} strokeWidth={2} color="#0F0E0C"/>
         </button>
       </div>
 
       {/* Info */}
-      <div className="pt-4 pb-1">
-        <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
-            <h3 className="text-sm font-medium text-ink leading-snug truncate">{product.name}</h3>
-            <p className="text-xs text-muted mt-0.5 capitalize">{product.fit} fit</p>
+      <div style={{ paddingTop: '0.875rem' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
+          <div style={{ minWidth: 0 }}>
+            <p style={{ fontSize: 13, fontWeight: 500, color: '#0F0E0C', lineHeight: 1.3,
+              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {product.name}
+            </p>
+            <p style={{ fontSize: 11, color: '#9A9590', marginTop: 2, textTransform: 'capitalize' }}>
+              {product.fit} fit
+            </p>
           </div>
-          <span className="text-sm font-medium text-ink shrink-0">{formatPrice(product.price)}</span>
+          <span style={{ fontSize: 13, fontWeight: 500, color: '#0F0E0C', flexShrink: 0 }}>
+            {formatPrice(product.price)}
+          </span>
         </div>
-
-        {/* Color swatches */}
         {product.colors?.length > 0 && (
-          <div className="flex gap-1.5 mt-2.5">
+          <div style={{ display: 'flex', gap: 5, marginTop: 8 }}>
             {product.colors.map(c => (
-              <span
-                key={c.name}
-                title={c.name}
-                className="h-3 w-3 rounded-full border border-stone-300"
-                style={{ backgroundColor: c.code }}
-              />
+              <span key={c.name} title={c.name}
+                style={{ width: 11, height: 11, borderRadius: '50%', backgroundColor: c.code,
+                  border: '1px solid rgba(0,0,0,0.1)', flexShrink: 0 }}/>
             ))}
           </div>
         )}

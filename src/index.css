@@ -1,73 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Design Tokens ──────────────────────────────────── */
-:root {
-  --c-bg: #F9F7F4;
-  --c-ink: #0F0E0C;
-  --c-muted: #9A9590;
-  --c-border: #E5E2DC;
-  --c-accent: #C5A882;
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Inter', system-ui, sans-serif;
-}
+/* ─── Base ─────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
-/* ─── Base Reset ─────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
-}
+html { scroll-behavior: smooth; }
 
 body {
-  font-family: var(--font-sans);
-  background-color: var(--c-bg);
-  color: var(--c-ink);
-  min-width: 320px;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #F9F7F4;
+  color: #0F0E0C;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
 }
 
+img { display: block; max-width: 100%; }
 button, a, input { -webkit-tap-highlight-color: transparent; }
 
-img { display: block; }
+/* ─── Typography helpers ─────────────── */
+.font-display { font-family: 'Cormorant Garamond', Georgia, serif; }
 
-/* ─── Typography ─────────────────────────────────────── */
-.font-serif { font-family: var(--font-serif); }
-.font-sans  { font-family: var(--font-sans); }
-
-/* ─── Scrollbar ─────────────────────────────────────── */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* ─── Marquee ────────────────────────────────────────── */
-.marquee-track {
-  animation: marquee 50s linear infinite;
-  will-change: transform;
-}
-.marquee-track:hover { animation-play-state: paused; }
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+/* ─── Eyebrow label ─────────────────── */
+.label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #9A9590;
 }
 
-/* ─── Hover underline link ───────────────────────────── */
-.link-underline {
+/* ─── Hover underline ───────────────── */
+.link-line {
   position: relative;
   display: inline-block;
 }
-.link-underline::after {
+.link-line::after {
   content: '';
   position: absolute;
   bottom: -1px;
@@ -77,26 +49,40 @@ img { display: block; }
   background: currentColor;
   transition: width 0.3s ease;
 }
-.link-underline:hover::after { width: 100%; }
+.link-line:hover::after { width: 100%; }
 
-/* ─── Fade-in-up on scroll (utility) ────────────────── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-up {
-  animation: fadeUp 0.7s ease forwards;
-}
-
-/* ─── Product card image scale ───────────────────────── */
-.img-zoom {
+/* ─── Image hover zoom ──────────────── */
+.img-hover { overflow: hidden; }
+.img-hover img,
+.img-hover .img-inner {
   transition: transform 0.9s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
-.group:hover .img-zoom { transform: scale(1.04); }
+.img-hover:hover img,
+.img-hover:hover .img-inner {
+  transform: scale(1.04);
+}
 
-/* ─── Reduced motion ─────────────────────────────────── */
+/* ─── Marquee ───────────────────────── */
+.marquee-wrap { overflow: hidden; }
+.marquee-track {
+  display: flex;
+  animation: marquee 50s linear infinite;
+  width: max-content;
+}
+.marquee-track:hover { animation-play-state: paused; }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ─── No scrollbar ──────────────────── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─── Reduced motion ────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .marquee-track { animation: none; }
-  .img-zoom { transition: none; }
+  .img-hover img { transition: none; }
 }

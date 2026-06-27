@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Plus, Minus, ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, Minus, Check } from 'lucide-react';
 import { products } from '../data/products';
 import { categories } from '../data/categories';
-import { ProductGrid } from '../components/ecommerce/ProductGrid';
 import { formatPrice } from '../utils/formatPrice';
+import { ProductCard } from '../components/ecommerce/ProductCard';
 
-const AccordionRow = ({ title, children }) => {
+const Accordion = ({ title, children }) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border-b border-stone-200">
-      <button
-        onClick={() => setOpen(v => !v)}
-        className="w-full flex items-center justify-between py-4 text-left"
-      >
-        <span className="text-[11px] tracking-widest uppercase font-semibold text-ink">{title}</span>
-        {open ? <Minus size={12} strokeWidth={2} className="text-muted shrink-0" /> : <Plus size={12} strokeWidth={2} className="text-muted shrink-0" />}
+    <div style={{ borderTop: '1px solid #E5E2DC' }}>
+      <button onClick={() => setOpen(v => !v)}
+        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '1rem 0', background: 'none', border: 'none', cursor: 'pointer' }}>
+        <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#0F0E0C' }}>{title}</span>
+        {open ? <Minus size={12} color="#9A9590"/> : <Plus size={12} color="#9A9590"/>}
       </button>
-      {open && (
-        <div className="pb-5 text-sm font-light text-stone-500 leading-[1.8]">
-          {children}
-        </div>
-      )}
+      {open && <div style={{ paddingBottom: '1.25rem', fontSize: 13, color: '#9A9590', fontWeight: 300, lineHeight: 1.85 }}>{children}</div>}
     </div>
   );
 };
@@ -30,36 +25,26 @@ export const ProductPage = ({ onAddToCart }) => {
   const { slug } = useParams();
   const product   = products.find(p => p.slug === slug);
   const category  = categories.find(c => c.slug === product?.categorySlug);
-
   const [activeImg, setActiveImg] = useState('');
   const [size, setSize]           = useState('');
   const [color, setColor]         = useState(null);
   const [added, setAdded]         = useState(false);
 
   useEffect(() => {
-    if (product) {
-      setActiveImg(product.image);
-      setSize(product.sizes?.[0] || '');
-      setColor(product.colors?.[0] || null);
-      setAdded(false);
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    }
-  }, [slug, product]);
+    if (product) { setActiveImg(product.image); setSize(product.sizes?.[0] || ''); setColor(product.colors?.[0] || null); setAdded(false); window.scrollTo({ top:0, behavior:'instant' }); }
+  }, [slug]);
 
-  if (!product) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-paper">
-        <div className="text-center">
-          <p className="text-sm text-muted mb-4">Product not found.</p>
-          <Link to="/" className="text-[11px] tracking-widest uppercase font-medium text-ink link-underline">Go Home</Link>
-        </div>
+  if (!product) return (
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#F9F7F4' }}>
+      <div style={{ textAlign: 'center' }}>
+        <p style={{ fontSize: 13, color: '#9A9590', marginBottom: '1.5rem' }}>Product not found.</p>
+        <Link to="/" style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#0F0E0C', textDecoration: 'none' }}>← Home</Link>
       </div>
-    );
-  }
+    </div>
+  );
 
-  const related = products
-    .filter(p => p.categorySlug === product.categorySlug && p.id !== product.id)
-    .slice(0, 4);
+  const related = products.filter(p => p.categorySlug === product.categorySlug && p.id !== product.id).slice(0, 4);
+  const allImages = [product.image, ...(product.gallery || [])].filter((v, i, a) => a.indexOf(v) === i);
 
   const handleAdd = () => {
     if (!size || !color) return;
@@ -68,196 +53,152 @@ export const ProductPage = ({ onAddToCart }) => {
     setTimeout(() => setAdded(false), 2500);
   };
 
-  const allImages = [product.image, ...(product.gallery || [])].filter(Boolean);
-
   return (
-    <div className="min-h-screen bg-paper pt-[72px]">
-      <div className="max-w-screen-xl mx-auto px-6 lg:px-10">
+    <div style={{ background: '#F9F7F4', minHeight: '100vh', paddingTop: 72 }}>
 
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-2xs tracking-widest uppercase text-muted font-medium py-5 border-b border-stone-100">
-          <Link to="/" className="hover:text-ink transition-colors">Home</Link>
-          <span>/</span>
-          {category && <Link to={`/category/${category.slug}`} className="hover:text-ink transition-colors">{category.name}</Link>}
-          <span>/</span>
-          <span className="text-ink truncate max-w-[200px]">{product.name}</span>
+      {/* Breadcrumb */}
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 2.5rem' }}>
+        <nav style={{ display: 'flex', gap: 8, alignItems: 'center', padding: '1.25rem 0', borderBottom: '1px solid #E5E2DC' }}>
+          {[['/','Home'],[`/category/${product.categorySlug}`, category?.name||product.categorySlug],[null, product.name]].map(([to, label], i, a) => (
+            <React.Fragment key={label}>
+              {to ? <Link to={to} style={{ fontSize: 10, color: '#9A9590', textDecoration: 'none', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase' }}>{label}</Link>
+                   : <span style={{ fontSize: 10, color: '#0F0E0C', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase' }}>{label}</span>}
+              {i < a.length - 1 && <span style={{ color: '#E5E2DC', fontSize: 10 }}>/</span>}
+            </React.Fragment>
+          ))}
         </nav>
+      </div>
 
-        {/* Main content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 py-10 lg:py-16">
+      {/* Main grid */}
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '3rem 2.5rem 6rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'start' }} id="product-grid">
 
-          {/* ── LEFT: Images ── */}
-          <div className="flex flex-col gap-3 md:flex-row md:gap-4">
-            {/* Thumbnails */}
-            <div className="flex md:flex-col gap-2 order-2 md:order-1 overflow-x-auto md:overflow-visible pb-2 md:pb-0 shrink-0">
+        {/* Images */}
+        <div>
+          <div style={{ aspectRatio: '3/4', background: '#EDEAE6', overflow: 'hidden', marginBottom: '0.75rem' }}>
+            <img src={activeImg} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}/>
+          </div>
+          {allImages.length > 1 && (
+            <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto' }} className="no-scrollbar">
               {allImages.map((src, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveImg(src)}
-                  className={`shrink-0 aspect-[3/4] w-14 md:w-16 overflow-hidden bg-stone-100 border transition-all ${
-                    activeImg === src ? 'border-ink' : 'border-transparent hover:border-stone-300'
-                  }`}
-                >
-                  <img src={src} alt="" className="w-full h-full object-cover" />
+                <button key={i} onClick={() => setActiveImg(src)}
+                  style={{ flexShrink: 0, width: 72, height: 90, background: '#EDEAE6', border: '2px solid',
+                    borderColor: activeImg === src ? '#0F0E0C' : 'transparent',
+                    overflow: 'hidden', cursor: 'pointer', padding: 0 }}>
+                  <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
                 </button>
               ))}
             </div>
+          )}
+        </div>
 
-            {/* Main image */}
-            <div className="flex-1 order-1 md:order-2">
-              <div className="relative aspect-[3/4] bg-stone-100 overflow-hidden">
-                <img
-                  src={activeImg}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-                {product.tag && (
-                  <span className="absolute top-4 left-4 text-[9px] tracking-widest uppercase font-medium bg-paper text-ink px-2 py-1">
-                    {product.tag}
-                  </span>
-                )}
+        {/* Details — sticky */}
+        <div style={{ position: 'sticky', top: 96 }}>
+          {product.tag && (
+            <span style={{ display: 'inline-block', fontSize: 9, fontWeight: 600, letterSpacing: '0.2em',
+              textTransform: 'uppercase', color: '#9A9590', marginBottom: '1rem' }}>{product.tag}</span>
+          )}
+          <h1 className="font-display" style={{ fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 300, color: '#0F0E0C', lineHeight: 1.05, marginBottom: '0.5rem' }}>
+            {product.name}
+          </h1>
+          <p style={{ fontSize: 13, color: '#9A9590', fontWeight: 300, marginBottom: '1.5rem', textTransform: 'capitalize' }}>
+            {product.fit} fit
+          </p>
+          <p style={{ fontSize: 22, fontWeight: 500, color: '#0F0E0C', marginBottom: '2rem' }}>
+            {formatPrice(product.price)}
+          </p>
+
+          {/* Color */}
+          {product.colors?.length > 0 && (
+            <div style={{ marginBottom: '1.5rem' }}>
+              <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#0F0E0C', marginBottom: '0.75rem' }}>
+                Colour — {color?.name}
+              </p>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {product.colors.map(c => (
+                  <button key={c.name} onClick={() => setColor(c)} title={c.name}
+                    style={{ width: 26, height: 26, borderRadius: '50%', backgroundColor: c.code,
+                      border: `2px solid ${color?.name===c.name ? '#0F0E0C' : 'transparent'}`,
+                      outline: `1px solid rgba(0,0,0,0.12)`, cursor: 'pointer', padding: 0 }}/>
+                ))}
               </div>
             </div>
+          )}
+
+          {/* Size */}
+          {product.sizes?.length > 0 && (
+            <div style={{ marginBottom: '2rem' }}>
+              <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#0F0E0C', marginBottom: '0.75rem' }}>
+                Size
+              </p>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {product.sizes.map(s => (
+                  <button key={s} onClick={() => setSize(s)}
+                    style={{ padding: '0.5rem 1rem', fontSize: 11, fontWeight: 500, cursor: 'pointer',
+                      background: size===s ? '#0F0E0C' : 'transparent',
+                      color: size===s ? '#F9F7F4' : '#9A9590',
+                      border: `1px solid ${size===s ? '#0F0E0C' : '#E5E2DC'}`,
+                      transition: 'all 0.2s' }}>
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Add to Bag */}
+          <button onClick={handleAdd} disabled={!size || !color || added}
+            style={{ width: '100%', padding: '1.1rem', fontSize: 10, fontWeight: 600,
+              letterSpacing: '0.2em', textTransform: 'uppercase',
+              background: added ? '#2D5A27' : '#0F0E0C',
+              color: '#F9F7F4', border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              transition: 'background 0.3s', marginBottom: '0.75rem' }}>
+            {added ? <><Check size={13}/> Added to Bag</> : 'Add to Bag'}
+          </button>
+          <p style={{ fontSize: 10, color: '#9A9590', textAlign: 'center', marginBottom: '2rem' }}>
+            Free shipping over ₹3,000 · Free returns
+          </p>
+
+          {/* Description */}
+          <p style={{ fontSize: 13, color: '#9A9590', fontWeight: 300, lineHeight: 1.85, marginBottom: '2rem' }}>
+            {product.description}
+          </p>
+
+          {/* Accordions */}
+          <div style={{ borderBottom: '1px solid #E5E2DC' }}>
+            {product.features?.length > 0 && (
+              <Accordion title="Details & Features">
+                <ul style={{ margin: 0, padding: '0 0 0 1.25rem' }}>
+                  {product.features.map((f, i) => <li key={i} style={{ marginBottom: '0.35rem' }}>{f}</li>)}
+                </ul>
+              </Accordion>
+            )}
+            <Accordion title="Fit Guide">
+              <p>This piece is cut in a <strong>{product.fit}</strong> fit. We recommend sizing up for a more relaxed, oversized silhouette. The model wears size M.</p>
+            </Accordion>
+            <Accordion title="Delivery & Returns">
+              <p>Standard delivery 3–5 working days. Free shipping on orders above ₹3,000. Free returns within 14 days of delivery.</p>
+            </Accordion>
           </div>
+        </div>
+        <style>{`@media(max-width:900px){#product-grid{grid-template-columns:1fr!important;}}`}</style>
+      </div>
 
-          {/* ── RIGHT: Details (sticky) ── */}
-          <div className="lg:sticky lg:top-[72px] self-start pt-2">
-            {/* Tag */}
-            {product.tag && (
-              <p className="text-2xs tracking-superwide text-muted uppercase font-medium mb-3">{product.tag}</p>
-            )}
-
-            {/* Name */}
-            <h1 className="font-display font-light text-ink text-4xl md:text-5xl leading-[1.0] mb-4">
-              {product.name}
-            </h1>
-
-            {/* Price + Fit */}
-            <div className="flex items-center gap-4 mb-6 pb-6 border-b border-stone-200">
-              <span className="text-2xl font-light text-ink">{formatPrice(product.price)}</span>
-              <span className="text-[10px] tracking-widest uppercase font-medium text-stone-500 border border-stone-200 px-2.5 py-1">
-                {product.fit} Fit
-              </span>
-            </div>
-
-            {/* Description */}
-            <p className="text-sm font-light text-stone-500 leading-[1.8] mb-8">
-              {product.description}
-            </p>
-
-            {/* Color picker */}
-            {product.colors?.length > 0 && (
-              <div className="mb-6">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] tracking-widest uppercase font-semibold text-ink">
-                    Colour — <span className="text-muted font-normal">{color?.name}</span>
-                  </span>
-                </div>
-                <div className="flex gap-2.5">
-                  {product.colors.map(c => (
-                    <button
-                      key={c.name}
-                      onClick={() => setColor(c)}
-                      title={c.name}
-                      className={`h-7 w-7 rounded-full border-2 transition-all duration-200 ${
-                        color?.name === c.name ? 'border-ink scale-110' : 'border-stone-200 hover:border-stone-400'
-                      }`}
-                      style={{ backgroundColor: c.code }}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Size picker */}
-            {product.sizes?.length > 0 && (
-              <div className="mb-8">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] tracking-widest uppercase font-semibold text-ink">
-                    Size — <span className="text-muted font-normal">{size}</span>
-                  </span>
-                  <span className="text-[10px] text-muted hover:text-ink cursor-pointer underline underline-offset-2 transition-colors">
-                    Size guide
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {product.sizes.map(s => (
-                    <button
-                      key={s}
-                      onClick={() => setSize(s)}
-                      className={`min-w-[52px] py-2 px-3 text-xs font-medium border transition-all duration-200 ${
-                        size === s
-                          ? 'border-ink bg-ink text-paper'
-                          : 'border-stone-200 text-stone-600 hover:border-stone-400 hover:text-ink'
-                      }`}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Add to bag */}
-            <button
-              onClick={handleAdd}
-              disabled={!size || !color}
-              className={`w-full py-4 text-[11px] tracking-widest uppercase font-semibold transition-all duration-300 mb-4 ${
-                added
-                  ? 'bg-stone-700 text-paper cursor-default'
-                  : !size || !color
-                  ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
-                  : 'bg-ink text-paper hover:bg-stone-800 active:scale-[0.99]'
-              }`}
-            >
-              {added ? '✓ Added to Bag' : 'Add to Bag'}
-            </button>
-
-            {/* Accordions */}
-            <div className="border-t border-stone-200 mt-6">
-              {product.features?.length > 0 && (
-                <AccordionRow title="Details & Specifications">
-                  <ul className="space-y-2 mt-1">
-                    {product.features.map((f, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="mt-1.5 h-1 w-1 rounded-full bg-muted shrink-0" />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                </AccordionRow>
-              )}
-              <AccordionRow title="Fit & Sizing">
-                <p>Cut in a <strong className="text-ink font-medium">{product.fit}</strong> silhouette. We recommend selecting your regular size. For a more exaggerated drape, size up by one. Model is 188cm and wears size M.</p>
-              </AccordionRow>
-              <AccordionRow title="Materials & Care">
-                <p>Crafted from sustainably sourced premium fibres. Machine wash cold on a gentle cycle with like colours. Lay flat to dry. Cool iron if needed.</p>
-              </AccordionRow>
-              <AccordionRow title="Shipping & Returns">
-                <p>Complimentary standard shipping on all orders over ₹3,000. Normal processing 1–2 business days. Returns accepted within 14 days, unworn with tags attached.</p>
-              </AccordionRow>
+      {/* Related */}
+      {related.length > 0 && (
+        <div style={{ borderTop: '1px solid #E5E2DC', padding: '5rem 0', background: '#F9F7F4' }}>
+          <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 2.5rem' }}>
+            <p className="label" style={{ marginBottom: '0.75rem' }}>From the same category</p>
+            <h2 className="font-display" style={{ fontSize: 'clamp(1.75rem,3vw,2.5rem)', fontWeight: 300, color: '#0F0E0C', marginBottom: '2.5rem' }}>
+              You May Also Like
+            </h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1.25rem 1.5rem' }} id="related-grid">
+              {related.map(p => <ProductCard key={p.id} product={p} onAddToCart={onAddToCart}/>)}
+              <style>{`@media(max-width:900px){#related-grid{grid-template-columns:repeat(2,1fr)!important;}}`}</style>
             </div>
           </div>
         </div>
-
-        {/* Related */}
-        {related.length > 0 && (
-          <div className="border-t border-stone-100 py-16 lg:py-24">
-            <div className="flex items-end justify-between mb-10">
-              <h2 className="font-display font-light text-ink text-3xl md:text-4xl">You May Also Like</h2>
-              {category && (
-                <Link
-                  to={`/category/${category.slug}`}
-                  className="hidden sm:inline text-[11px] tracking-widest uppercase font-medium text-muted hover:text-ink transition-colors link-underline"
-                >
-                  View {category.name}
-                </Link>
-              )}
-            </div>
-            <ProductGrid products={related} onAddToCart={onAddToCart} columns={4} />
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 };

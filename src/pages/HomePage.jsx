@@ -5,97 +5,93 @@ import { Hero } from '../components/home/Hero';
 import { CollectionsSection } from '../components/home/CollectionsSection';
 import { FeaturedDrop } from '../components/home/FeaturedDrop';
 import { NewsletterSection } from '../components/home/NewsletterSection';
-import { ProductGrid } from '../components/ecommerce/ProductGrid';
+import { ProductCard } from '../components/ecommerce/ProductCard';
+
+const SectionHeader = ({ eyebrow, title, linkTo, linkLabel }) => (
+  <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '2.5rem' }}>
+    <div>
+      <p className="label" style={{ marginBottom: '0.75rem' }}>{eyebrow}</p>
+      <h2 className="font-display" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 300, color: '#0F0E0C', lineHeight: 1.05 }}>
+        {title}
+      </h2>
+    </div>
+    {linkTo && (
+      <Link to={linkTo} className="link-line"
+        style={{ fontSize: 10, fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9A9590', textDecoration: 'none' }}>
+        {linkLabel || 'View All'}
+      </Link>
+    )}
+  </div>
+);
+
+const Grid4 = ({ items, onAddToCart }) => (
+  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.25rem 1.5rem' }}
+    className="product-grid-4">
+    {items.map(p => <ProductCard key={p.id} product={p} onAddToCart={onAddToCart}/>)}
+    <style>{`@media(max-width:1024px){.product-grid-4{grid-template-columns:repeat(2,1fr)!important;}}`}</style>
+  </div>
+);
 
 export const HomePage = ({ onAddToCart }) => {
-  const newArrivals = allProducts
-    .filter(p => p.tag === 'New' || p.tag === 'Trending')
-    .slice(0, 4);
-
-  const bestSellers = allProducts
-    .filter(p => p.isBestSeller)
-    .slice(0, 4);
+  const newArrivals = allProducts.filter(p => ['New','Trending','Studio Pick'].includes(p.tag)).slice(0, 4);
+  const bestSellers = allProducts.filter(p => p.isBestSeller).slice(0, 4);
 
   return (
-    <div className="bg-paper">
-      {/* 1. Hero */}
-      <Hero />
+    <div style={{ background: '#F9F7F4' }}>
+      <Hero/>
 
-      {/* 2. New Arrivals */}
-      <section className="py-24 lg:py-32">
-        <div className="max-w-screen-xl mx-auto px-6 lg:px-10">
-          <div className="flex items-end justify-between mb-12">
-            <div>
-              <p className="text-2xs tracking-superwide text-muted uppercase font-medium mb-3">Just In</p>
-              <h2 className="font-display font-light text-ink text-4xl md:text-5xl leading-[1.05]">New Arrivals</h2>
-            </div>
-            <Link
-              to="/new-arrivals"
-              className="hidden sm:inline-flex items-center gap-2 text-[11px] tracking-widest uppercase font-medium text-muted hover:text-ink transition-colors link-underline"
-            >
-              View All
-            </Link>
-          </div>
-          <ProductGrid products={newArrivals} onAddToCart={onAddToCart} />
+      {/* New Arrivals */}
+      <section style={{ padding: '6rem 0' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 2.5rem' }}>
+          <SectionHeader eyebrow="Just In" title="New Arrivals" linkTo="/new-arrivals"/>
+          <Grid4 items={newArrivals} onAddToCart={onAddToCart}/>
         </div>
       </section>
 
-      {/* 3. Featured Drop (dark editorial) */}
-      <FeaturedDrop />
+      {/* Featured Drop */}
+      <FeaturedDrop/>
 
-      {/* 4. Best Sellers */}
-      <section className="py-24 lg:py-32">
-        <div className="max-w-screen-xl mx-auto px-6 lg:px-10">
-          <div className="flex items-end justify-between mb-12">
-            <div>
-              <p className="text-2xs tracking-superwide text-muted uppercase font-medium mb-3">Always in Demand</p>
-              <h2 className="font-display font-light text-ink text-4xl md:text-5xl leading-[1.05]">Best Sellers</h2>
-            </div>
-            <Link
-              to="/best-sellers"
-              className="hidden sm:inline-flex items-center gap-2 text-[11px] tracking-widest uppercase font-medium text-muted hover:text-ink transition-colors link-underline"
-            >
-              View All
-            </Link>
-          </div>
-          <ProductGrid products={bestSellers} onAddToCart={onAddToCart} />
+      {/* Best Sellers */}
+      <section style={{ padding: '6rem 0' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 2.5rem' }}>
+          <SectionHeader eyebrow="Always in Demand" title="Best Sellers" linkTo="/best-sellers"/>
+          <Grid4 items={bestSellers} onAddToCart={onAddToCart}/>
         </div>
       </section>
 
-      {/* 5. Editorial Banner */}
-      <section className="bg-stone-100">
-        <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 min-h-[480px]">
-          <div className="relative overflow-hidden min-h-[320px] md:min-h-0">
-            <img
-              src="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=900&q=80"
-              alt="VELORA fabric texture"
-              className="absolute inset-0 w-full h-full object-cover img-zoom"
-            />
+      {/* Editorial Banner */}
+      <section style={{ background: '#EDEAE6' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr' }} id="editorial-banner">
+          <div style={{ overflow: 'hidden', minHeight: 400 }} className="img-hover">
+            <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=900&q=80&fit=crop"
+              alt="VELORA fabric" className="img-inner"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}/>
           </div>
-          <div className="flex flex-col justify-center px-10 py-16 lg:px-16">
-            <p className="text-2xs tracking-superwide text-muted uppercase font-medium mb-4">The Philosophy</p>
-            <h2 className="font-display font-light text-ink text-4xl md:text-5xl leading-[1.1] mb-6">
-              Stripped of noise.<br />
-              Built to last.
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center',
+            padding: 'clamp(2.5rem, 5vw, 5rem)' }}>
+            <p className="label" style={{ marginBottom: '1rem' }}>The Philosophy</p>
+            <h2 className="font-display" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 300,
+              color: '#0F0E0C', lineHeight: 1.05, marginBottom: '1.25rem' }}>
+              Stripped of noise.<br/>Built to last.
             </h2>
-            <p className="text-sm text-stone-500 font-light leading-[1.8] max-w-sm mb-8">
-              We remove logos, noisy graphics, and temporary trends. Every piece is focused on structure, silhouette, and premium fabric that softens with time.
+            <p style={{ fontSize: 13, color: '#9A9590', fontWeight: 300, lineHeight: 1.85, maxWidth: 360, marginBottom: '2rem' }}>
+              We remove logos, noisy graphics, and temporary trends — focusing on structure, silhouette, and fabrics that only get better with time.
             </p>
-            <Link
-              to="/about"
-              className="inline-flex items-center gap-2 text-[11px] tracking-widest uppercase font-medium text-ink link-underline"
-            >
+            <Link to="/about" className="link-line"
+              style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase',
+                color: '#0F0E0C', textDecoration: 'none', display: 'inline-block' }}>
               Our Story →
             </Link>
           </div>
+          <style>{`@media(max-width:768px){#editorial-banner{grid-template-columns:1fr!important;}}`}</style>
         </div>
       </section>
 
-      {/* 6. Collections Grid */}
-      <CollectionsSection />
+      {/* Collections */}
+      <CollectionsSection/>
 
-      {/* 7. Newsletter */}
-      <NewsletterSection />
+      {/* Newsletter */}
+      <NewsletterSection/>
     </div>
   );
 };
